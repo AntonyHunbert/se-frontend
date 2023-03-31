@@ -1,10 +1,14 @@
-import { Form, Input, Button, Row, Col, Space } from "antd";
-import { useState } from "react";
+import { Form, Input, Button, Row, Col, Space, message } from "antd";
+import { useState, useEffect } from "react";
 import styles from './SignupPage.module.css'
+import axios from 'axios';
+import qs from 'qs';
 
 const SignupPage = () => {
+
     return <>
         {/* <div>这是注册页面</div> */}
+
         <SignupForm />
     </>
 
@@ -12,8 +16,48 @@ const SignupPage = () => {
 
 
 const SignupForm = () => {
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const [formRef] = Form.useForm();
+
     const [enableSendCode, setenableSendCode] = useState(true);
     const [time, setTime] = useState(59);
+    const regex = /^\d{8}$/;
+
+
+    const clickGetCode = () => {
+        const isMatch = regex.test(formRef.getFieldValue());
+        if (isMatch) {
+            CountTime();
+            console.log(formRef.getFieldValue());
+            axios({
+                url: 'http://localhost:8081/user/getcode',
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {
+                    stuId: formRef.getFieldValue().stuId
+                }
+            }).then(function (response) {
+                console.log(response);
+            })
+                .catch(function (err) {
+                    console.log(err);
+                })
+        }
+        else {
+            messageApi.open({
+                type: 'error',
+                content: '请正确输入8位SID！！',
+            })
+
+
+
+        }
+
+    }
+
     const CountTime = () => {
         let t = 59;
         setenableSendCode(false);
@@ -29,19 +73,27 @@ const SignupForm = () => {
     }
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
+        // axios.get('http://localhost:8081/user/getcode', values)
+        //     .then(function (response) {
+        //         console.log("response: ", response);
+        //     })
+        //     .catch(err => console.log(err))
     }
 
     let sendBtn
     if (enableSendCode) {
-        sendBtn = <Button onClick={() => { CountTime() }} className={styles.sendBtn}>发送验证码</Button>
+        sendBtn = <Button onClick={() => { clickGetCode() }} className={styles.sendBtn}>发送验证码</Button>
     }
     else {
         sendBtn = <Button disabled className={styles.sendBtn}>{time}秒后可重新发送</Button>
     }
 
-    return <div className={styles.signupBox}>
+    return <>
+        {contextHolder}
+        <div className={styles.signupBox}>
 
-        
+
+
             <div className={styles.loginIntro}>
 
                 <Row>
@@ -65,6 +117,7 @@ const SignupForm = () => {
                 <Form
                     onFinish={onFinish}
                     size="middle"
+                    form={formRef}
                     labelCol={{
                         span: 5,
                         // offset: 2,
@@ -77,7 +130,7 @@ const SignupForm = () => {
                     {/* <Space direction="vertical"> */}
                     <Form.Item
                         label={<p>学号</p>}
-                        name="SID"
+                        name="stuId"
                         rules={[
                             {
                                 required: true,
@@ -147,10 +200,10 @@ const SignupForm = () => {
                         label={<p>验证码</p>}
                         name="identifyCode"
                         rules={[
-                            {
-                                required: true,
-                                message: "验证码不能为空！",
-                            },
+                            // {
+                            //     required: true,
+                            //     message: "验证码不能为空！",
+                            // },
                             {
                                 pattern: /^\d{6}$/,
                                 message: "验证码为6位数字，请正确输入！"
@@ -176,18 +229,16 @@ const SignupForm = () => {
 
 
                 </Form>
-
-
             </div>
 
-        
 
 
 
 
 
 
-    </div>
+
+        </div></>
 
 }
 
