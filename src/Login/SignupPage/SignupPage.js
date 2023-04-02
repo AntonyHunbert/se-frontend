@@ -26,7 +26,7 @@ const SignupForm = () => {
 
 
     const clickGetCode = () => {
-        const isMatch = regex.test(formRef.getFieldValue());
+        const isMatch = regex.test(formRef.getFieldValue().stuId);
         if (isMatch) {
             CountTime();
             console.log(formRef.getFieldValue());
@@ -73,11 +73,37 @@ const SignupForm = () => {
     }
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
-        // axios.get('http://localhost:8081/user/getcode', values)
+        // axios.get('http://localhost:8081/user/register', values)
         //     .then(function (response) {
         //         console.log("response: ", response);
         //     })
         //     .catch(err => console.log(err))
+        axios({
+            url: 'http://localhost:8081/user/register',
+            method: 'post',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            data: qs.stringify(values
+            )
+        }).then(function (response) {
+            console.log(response);
+            if (response.data.message !== '注册成功') {
+                messageApi.open({
+                    type: 'error',
+                    content: response.data.message,
+                })
+            }
+            else {
+                messageApi.open({
+                    type: 'success',
+                    content: response.data.message,
+                })
+            }
+        })
+            .catch(function (err) {
+                console.log(err);
+            })
     }
 
     let sendBtn
@@ -148,7 +174,7 @@ const SignupForm = () => {
 
                     <Form.Item
                         label={<p>密码</p>}
-                        name="pwd"
+                        name="password"
                         rules={[
                             {
                                 required: true,
@@ -171,7 +197,7 @@ const SignupForm = () => {
                             },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
-                                    if (!value || getFieldValue('pwd') === value) {
+                                    if (!value || getFieldValue('password') === value) {
                                         return Promise.resolve();
                                     }
                                     return Promise.reject(new Error('两次输入的密码不同，请重新输入！'));
@@ -185,7 +211,7 @@ const SignupForm = () => {
 
                     <Form.Item
                         label={<p>用户名</p>}
-                        name="nickname"
+                        name="name"
                         rules={[
                             {
                                 required: true,
@@ -198,7 +224,7 @@ const SignupForm = () => {
 
                     <Form.Item
                         label={<p>验证码</p>}
-                        name="identifyCode"
+                        name="code"
                         rules={[
                             // {
                             //     required: true,
