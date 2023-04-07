@@ -1,20 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
-import LoginPage from './Login/LoginPage/LoginPage';
-import SignupPage from './Login/SignupPage/SignupPage';
-import MainPage from './MainPage/MainPage';
+import LoginPage from './Commponents/Login/LoginPage/LoginPage';
+import SignupPage from './Commponents/Login/SignupPage/SignupPage';
+import MainPage from './Commponents/MainPage/MainPage';
 import { useRoutes } from 'react-router-dom';
 import routes from './routes'
+import ChatPage from './Commponents/Chat/ChatPage';
+import { OrderCard } from './Commponents/MainPage/OrderCard';
 
 function App() {
   const RouteTable = useRoutes(routes)
   return (
-    <>
-      {RouteTable}
-    </>
+    // <>
+    //   {RouteTable}
+    // </>
     // <LoginPage />
     // <SignupPage/>
-    // <MainPage/>
+    <MainPage/>
+    // <ChatPage/>
+    
 
   );
 }

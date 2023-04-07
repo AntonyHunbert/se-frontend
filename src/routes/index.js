@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom'
-import MainPage from '../MainPage/MainPage'
-import LoginPage from '../Login/LoginPage/LoginPage'
-import SignupPage from '../Login/SignupPage/SignupPage'
-import FindPwdPage from '../Login/FindPwdPage/FindPwdPage'
+import MainPage from '../Commponents/MainPage/MainPage'
+import LoginPage from '../Commponents/Login/LoginPage/LoginPage'
+import SignupPage from '../Commponents/Login/SignupPage/SignupPage'
+import FindPwdPage from '../Commponents/Login/FindPwdPage/FindPwdPage'
 export default [
     {
         path: '/',

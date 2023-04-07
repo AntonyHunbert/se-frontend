@@ -1,0 +1,137 @@
+.maskbox {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255, .3);
+    transition: 1s;
+}
+
+.talk_con {
+    position: fixed;
+    top: 15vh;
+    left: 30vw;
+    background-color: #fff;
+    width: 40vw;
+    height: 70vh;
+    border-radius: 10px;
+    padding: 2vh 1vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+.talk_show {
+    /* background-color: #bfa; */
+    border: 3px;
+    width: 90%;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 2vw;
+    
+}
+
+.chatBegin {
+    color: rgb(179, 177, 177);
+    font-size: small;
+    font-weight: lighter;
+}
+
+.talk_send {
+    width: 90%;
+    height: 20vh;
+    margin: 0 2vw;
+    /* background-color: pink; */
+    border-top: solid 1px;
+    border-color: gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.talk_btn {
+    width: 100%;
+    height: 5vh;
+    /* background-color: aqua; */
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.atalk {
+    /* text-align: right; */
+    display: flex;
+    margin: 1vh 1vw;
+    /* background-color: antiquewhite; */
+
+
+}
+
+.atalk span {
+    /* background-color: aquamarine; */
+    /* background-image:linear-gradient(135deg,#f5f7fa 0%, #c3cfe2 100%); */
+    box-shadow: 0 0 10px rgb(0, 0, 0, .3);
+    display: inline-block;
+    max-width: 25vw;
+    border-radius: 5px;
+    padding: 5px 10px;
+
+}
+
+.btalk {
+    /* text-align: right; */
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    margin: 1vh 1vw;
+    /* background-color: antiquewhite; */
+}
+.btalk span {
+    background-color: #4096ff;
+    color: #fff;
+    box-shadow: 0 0 10px rgb(0, 0, 0, .3);
+    display: inline-block;
+    max-width: 25vw;
+    border-radius: 5px;
+    padding: 5px 10px;
+
+}
+
+.titleBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: #bfa; */
+    /* border-bottom: solid 1px; */
+    box-shadow: 0 1px 1px rgb(0, 0, 0, .1);
+
+
+
+    height: 6vh;
+}
+
+.chatName {
+    width: 40vw;
+    text-align: center;
+    font-size: larger;
+}
+
+.closeBtn {
+    border: none;
+    background-color: rgb(0, 0, 0, 0);
+    font-size: larger;
+    width: 2vw;
+    cursor: pointer;
+
+}
+
+.sendBtn {
+    width: 7vw;
+}
+
+

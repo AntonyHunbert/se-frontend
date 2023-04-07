@@ -1,11 +1,12 @@
-import { Layout, Menu, Input, Select, Radio } from "antd";
-import { Content, Header } from "antd/es/layout/layout";
-import Sider from "antd/es/layout/Sider";
+import { Layout, Menu, Input, Select, Radio, Button, Row, Col, Card } from "antd";
+// import { Content, Header } from "antd/es/layout/layout";
+// import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
 import styles from "./MainPage.module.css"
 import { LockOutlined, UserOutlined, FieldTimeOutlined } from '@ant-design/icons';
+import { OrderCard } from "./OrderCard";
 
-
+const { Header, Content, Footer, Sider } = Layout;
 const MainPage = () => {
 
     const mainNavItems = [
@@ -89,20 +90,39 @@ const MainPage = () => {
 
     return <>
         <Layout>
-            <Header className={styles.mainHeader} theme="light">
+            <Header className={styles.mainHeader}
+                style={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1,
+                    width: '100%',
+                }}
+                theme="light">
                 <div>logo</div>
                 {/* <Menu mode="horizontal"
                     items={mainNavItems}
                 /> */}
-                <div className={styles.loginBox}><UserOutlined /> 请登录</div>
+
+                {/* <div className={styles.loginBox}> 修改密码</div> */}
+                <div className={styles.loginBox}> <UserOutlined /> 请登录</div>
             </Header>
 
-            <Layout>
+            <Layout hasSider>
                 <Sider
+                    className={styles.mainSider}
                     theme="light"
-                    width={'15vw'}
-                    className={styles.mainSider}>
+                    width={'13vw'}
+                    style={{
+                        // overflow: 'auto',
+                        height: '60vh',
+                        position: 'sticky',
+                        // left: 0,
+                        top: '8vh',
+                        zIndex: 1,
 
+
+                    }}
+                >
                     <Menu
                         mode="inline"
                         openKeys={openKeys}
@@ -110,8 +130,9 @@ const MainPage = () => {
                         items={siderNavItems}
                     />
                 </Sider>
-                <Content>
-                    <div className={styles.content}>
+                <Content
+                >
+                    {/* <div className={styles.content}> */}
                     <div className={styles.sortingBox}>
                         <Search
                             placeholder="input search text"
@@ -144,7 +165,7 @@ const MainPage = () => {
                             ]}
                         />
                         <Radio.Group
-                           
+
                             options={[
                                 {
                                     value: 'sell',
@@ -162,10 +183,30 @@ const MainPage = () => {
                         />
 
                     </div>
-                    <div className={styles.mainContent}>放卡片在这里（整个系统的主题色和背景都还没定，这个是我随便找的）</div>
-
+                    <div className={styles.mainContent}>
+                        {/* 放卡片在这里（整个系统的主题色和背景都还没定，这个是我随便找的） */}
+                        <Row gutter={16}>
+                            <Col span={6}><OrderCard /></Col>
+                            <Col span={6}><OrderCard /></Col>
+                            <Col span={6}><OrderCard /></Col>
+                            <Col span={6}><OrderCard /></Col>
+                        </Row>
+                        <Row gutter={16}>
+                            <Col span={6}><OrderCard /></Col>
+                            <Col span={6}><OrderCard /></Col>
+                            <Col span={6}><OrderCard /></Col>
+                            <Col span={6}><OrderCard /></Col>
+                        </Row>
+                        <Row gutter={16}>
+                            <Col span={6}><OrderCard /></Col>
+                            <Col span={6}><OrderCard /></Col>
+                            <Col span={6}><OrderCard /></Col>
+                            <Col span={6}><OrderCard /></Col>
+                        </Row>
                     </div>
-                    
+
+                    {/* </div> */}
+
                 </Content>
 
             </Layout>
