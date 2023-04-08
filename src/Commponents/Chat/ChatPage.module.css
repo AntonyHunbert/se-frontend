@@ -9,18 +9,79 @@
     transition: 1s;
 }
 
-.talk_con {
+.talk_box {
     position: fixed;
     top: 15vh;
-    left: 30vw;
+    left: 25vw;
     background-color: #fff;
-    width: 40vw;
+    width: 50vw;
+    height: 74vh;
+    border-radius: 5px;
+    /* padding: 2vh 0; */
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+
+}
+
+.userBox {
+    width: 11vw;
+    height: 60vh;
+    padding: 2vh 0;
+    padding-left: 1vw;
+    margin-left: .5vw;
+    margin-top: 2vh;
+    /* box-shadow: -1px -1px 5px rgb(0, 0, 0, .3); */
+    z-index: 1;
+    border-right: solid 1px;
+    border-color: rgb(202, 204, 206);
+    display: flex;
+    flex-direction: column;
+    /* border-radius: 5px; */
+
+
+
+    /* background-color: pink; */
+}
+
+.userNameBox {
+    /* background-color: #bfa; */
+    width: 10vw;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    border-bottom: solid 1px;
+    border-color: rgb(202, 204, 206);
+    /* margin-bottom: 1vh; */
+    padding: 0 .5vw;
+    transition: .5s;
+    cursor: pointer;
+
+    /* box-shadow: 1px 1px 5px rgb(0, 0, 0, .3); */
+    /* background-image:linear-gradient(0deg,#cfd9df 0%, #e2ebf0 100%); */
+
+
+}
+
+.userNameBox:hover {
+    /* background-color: #9eefff; */
+    background-color: black;
+    color: #fff;
+    
+
+}
+
+.talk_con {
+    
+    background-color: #fff;
+    width: 35vw;
     height: 70vh;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 2vh 1vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    
     
 }
 
@@ -107,8 +168,9 @@
     align-items: center;
     justify-content: space-between;
     /* background-color: #bfa; */
-    /* border-bottom: solid 1px; */
-    box-shadow: 0 1px 1px rgb(0, 0, 0, .1);
+    border-bottom: solid 1px;
+    border-color: rgb(202, 204, 206);
+    /* box-shadow: 0 1px 1px rgb(0, 0, 0, .1); */
 
 
 
