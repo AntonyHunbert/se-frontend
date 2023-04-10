@@ -11,14 +11,14 @@ import { OrderCard } from './Commponents/MainPage/OrderCard';
 function App() {
   const RouteTable = useRoutes(routes)
   return (
-    // <>
-    //   {RouteTable}
-    // </>
+    <>
+      {RouteTable}
+    </>
     // <LoginPage />
     // <SignupPage/>
-    // <MainPage/>
-    <ChatPage/>
-    
+    // <MainPage />
+    // <ChatPage/>
+
 
   );
 }

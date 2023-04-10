@@ -25,7 +25,7 @@ const LoginForm = () => {
 
         axios({
             url: 'http://localhost:8081/user/login',
-            method: 'get',
+            method: 'post',
             headers: {
                 'content-type': 'application/x-www-form-urlencoded'
             },
@@ -36,14 +36,16 @@ const LoginForm = () => {
                 message.error('登录失败，请检查密码或者用户名！')
             }
             else if (response.data.code === 200) {
-                message.success('登录成功,3秒后自动跳转')
-                let t = 3;
-                var timeClock = setInterval(() => {
-                    t--;
-                    if (t === 0) {
-                        clearInterval(timeClock)
-                    }
-                }, 1000)
+                message.success('登录成功')
+                // let t = 3;
+                // var timeClock = setInterval(() => {
+                //     t--;
+                //     if (t === 0) {
+                //         clearInterval(timeClock)
+                //     }
+                // }, 1000)
+                localStorage.setItem('stuId', response.data.data)
+                console.log(localStorage.getItem('stuId'));
                 navigate('/mainpage')
             }
         })

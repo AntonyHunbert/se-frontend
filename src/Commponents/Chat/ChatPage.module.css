@@ -126,12 +126,15 @@
 
 .atalk {
     /* text-align: right; */
+    width: 100%;
+    justify-content: start;
     display: flex;
     margin: 1vh 1vw;
     /* background-color: antiquewhite; */
 
 
 }
+
 
 .atalk span {
     /* background-color: aquamarine; */

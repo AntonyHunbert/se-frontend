@@ -5,20 +5,40 @@ import { SendOutlined, CloseOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 
 
-// 用龙哥的之前的代码让cahtgpt翻译的，有问题我应该不会，可以问龙哥
+
 
 const ChatPage = () => {
   const [words, setWords] = useState([]);
   const [message, setMessage] = useState('');
+  const [users, setUsers] = useState([]);
   const socketRef = useRef();
+  const [currentObject, setCurrentObject] = useState('');
+
 
   useEffect(() => {
-    socketRef.current = new WebSocket("ws://127.0.0.1:8041/socket/aaa/bbb");
+    const socketURL = "ws://localhost:8031/webserver/" + localStorage.getItem('stuId');
+    socketRef.current = new WebSocket(socketURL);
     socketRef.current.onmessage = (event) => {
-      setWords(prevWords => [...prevWords, { text: event.data, sender: 'other' }]);
+      const data = JSON.parse(event.data);
+      console.log(data)
+      if (data.users && data.users.length != 1) {
+        let realUsers = data.users.filter((num) => {
+          return num.username != localStorage.getItem('stuId');
+        })
+        setUsers(realUsers)
+        setCurrentObject(realUsers[0].username)
+      }
+      else {
+        console.log(data.from)
+        if (currentObject === data.from) {
+          setWords(prevWords => [...prevWords, { text: data.text, to: localStorage.getItem('stuId'), from: currentObject }]);
+        }
+      }
+
     };
     return () => socketRef.current.close();
   }, []);
+
 
   const handleInputChange = (event) => {
     setMessage(event.target.value);
@@ -35,8 +55,8 @@ const ChatPage = () => {
 
   const sendMessage = () => {
     if (message.trim() !== '') {
-      setWords(prevWords => [...prevWords, { text: message, sender: 'me' }]);
-      socketRef.current.send(message);
+      setWords(prevWords => [...prevWords, { text: message, from: localStorage.getItem('stuId'), to: currentObject }]);
+      socketRef.current.send(JSON.stringify({ text: message, from: localStorage.getItem('stuId'), to: currentObject }));
       setMessage('');
     }
   }
@@ -44,7 +64,7 @@ const ChatPage = () => {
   const { TextArea } = Input;
 
   const selectBubble = (word) => {
-    if (word.sender === 'me') {
+    if (word.sender === localStorage.getItem('stuId')) {
       return 'styles.btalk'
     } else {
       return 'styles.atalk'
@@ -52,26 +72,30 @@ const ChatPage = () => {
 
   }
 
+  const getCurrentObject = (event) => {
+    console.log(event.target.innerText);
+    setCurrentObject(event.target.innerText)
+  }
+
 
   return <div className={styles.maskbox}>
     <div className={styles.talk_box}>
       <div className={styles.userBox}>
-        <div className={styles.userNameBox}>吉川富隆</div>
-        <div className={styles.userNameBox}>吉川富隆</div>
-        <div className={styles.userNameBox}>吉川富隆</div>
-
-
+        {users.map(item => (
+          <div className={styles.userNameBox} onClick={getCurrentObject}
+          >{item.username}</div>
+        ))}
       </div>
       <div className={styles.talk_con} id="talk_con_id">
         <div className={styles.titleBox}>
-          <div className={styles.chatName}>吉川富隆</div>
-          
+          <div className={styles.chatName}>{currentObject}</div>
+
           <button className={styles.closeBtn}><CloseOutlined /></button>
         </div>
         <div className={styles.talk_show} id="words">
           <div className={styles.chatBegin}>---可以开始聊天啦！---</div>
           {words.map((word, index) => (
-            word.sender === 'me' ?
+            word.from === localStorage.getItem('stuId') ?
               <div
                 key={index}
                 className={styles.btalk}
