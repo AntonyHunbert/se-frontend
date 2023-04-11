@@ -137,14 +137,13 @@
 
 
 .atalk span {
-    /* background-color: aquamarine; */
-    /* background-image:linear-gradient(135deg,#f5f7fa 0%, #c3cfe2 100%); */
     box-shadow: 0 0 10px rgb(0, 0, 0, .3);
     display: inline-block;
     max-width: 25vw;
     border-radius: 5px;
     padding: 5px 10px;
-
+    background-color: rgb(26, 180, 26);
+    color: #fff;
 }
 
 .btalk {
@@ -163,6 +162,7 @@
     max-width: 25vw;
     border-radius: 5px;
     padding: 5px 10px;
+
 
 }
 
