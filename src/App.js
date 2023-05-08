@@ -7,17 +7,21 @@ import { useRoutes } from 'react-router-dom';
 import routes from './routes'
 import ChatPage from './Commponents/Chat/ChatPage';
 import { OrderCard } from './Commponents/MainPage/OrderCard';
+import { CommentPage } from './Commponents/Comment/CommentPage';
+import { PersonalPage } from './Commponents/PersonalPage/PersonalPage';
 
 function App() {
   const RouteTable = useRoutes(routes)
   return (
     // <>
-    //   {/* {RouteTable} */}
+    //   {RouteTable}
     // </>
     // <LoginPage />
     // <SignupPage/>
     // <MainPage />
-    <ChatPage/>
+    // <ChatPage/>
+    // <CommentPage/>
+    <PersonalPage/>
 
 
   );
