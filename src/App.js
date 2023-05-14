@@ -9,6 +9,8 @@ import ChatPage from './Commponents/Chat/ChatPage';
 import { OrderCard } from './Commponents/MainPage/OrderCard';
 import { CommentPage } from './Commponents/Comment/CommentPage';
 import { PersonalPage } from './Commponents/PersonalPage/PersonalPage';
+import { NewOrder } from './Commponents/NewOrder/NewOrder';
+import { OrderInfo } from './Commponents/OrderInfo/OrderInfo';
 
 function App() {
   const RouteTable = useRoutes(routes)
@@ -18,11 +20,12 @@ function App() {
     // </>
     // <LoginPage />
     // <SignupPage/>
-    // <MainPage />
+    <MainPage />
     // <ChatPage/>
     // <CommentPage/>
-    <PersonalPage/>
-
+    // <PersonalPage/>
+    // <NewOrder/>
+    // <OrderInfo/>
 
   );
 }

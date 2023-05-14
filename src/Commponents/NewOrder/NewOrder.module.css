@@ -9,32 +9,27 @@
     transition: 1s;
 }
 
-.commentCard {
+.orderCard {
     position: fixed;
     top: 20vh;
     left: 25vw;
     width: 50vw;
-    height: 50vh;
+    height: 60vh;
     background-color: #fff;
     border-radius: 5px;
-    padding: 1vh 1vw;
-    box-shadow: 0 0 10px rgb(0, 0, 0, .3);
-}
-
-.commentBox {
-    width: 50vw;
-    height: 40vh;
-    padding: 1vh 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    /* align-items: center; */
-    /* background-color: #bfa; */
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 10px rgb(0, 0, 0, .3);
+
+    
 }
 
 .closeBox {
-    width: 50vw;
+    width: 49vw;
     height: 5vh;
+    /* margin-right: 2vw; */
     /* margin: 0 1.5vw; */
     display: flex;
     align-items: center;
@@ -56,44 +51,16 @@
     transform: rotate(180deg);
 }
 
-
-.commentText{
-    width: 30vw;
-    height: 10vh;
-}
-
-.commentTitle,
-.commentTitle1 {
-    font-size: 2vh;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 5vh;
-}
-
-.commentTitle1 {
-    height: 10vh;
-    align-items: flex-start;
-}
-.scoreBox {
-    width: 28vw;
-    height: 5vh;
-    display: flex;
-    align-items: center;
-    /* justify-content: center; */
+.orderForm {
     /* background-color: #bfa; */
-    font-size: 2vh;
-}
-
-.scoreRate {
-    /* width: 10vw; */
-    margin: 0 1vw;
-}
-
-.commentSubmit {
-    width: 100%;
+    width: 50vw;
+    height: 55vh;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.releaseBtn {
+    display: flex;
     justify-content: center;
 }

@@ -4,7 +4,7 @@ import TextArea from "antd/es/input/TextArea";
 import { CloseOutlined, UploadOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 
-export const CommentPage = () => {
+export const CommentPage = (props) => {
   const [score, setScore] = useState(0);
   const statementRef = useRef(null);
 
@@ -30,7 +30,7 @@ export const CommentPage = () => {
         }
       }
     },
-    showUploadList: false,
+    showUploadList: true,
   };
 
   // 获取到评分
@@ -42,10 +42,6 @@ export const CommentPage = () => {
   // 按回车获取评论内容
   const getText = (event) => {
     console.log(event.target.value);
-  };
-
-  const goBack = () => {
-    window.history.back();
   };
 
   const submitComment = () => {
@@ -80,7 +76,7 @@ export const CommentPage = () => {
     <div className={styles.maskbox}>
       <div className={styles.commentCard}>
         <div className={styles.closeBox}>
-          <button className={styles.cardCloseBtn} onClick={goBack}>
+          <button className={styles.cardCloseBtn} onClick={props.showCard}>
             <CloseOutlined />
           </button>
         </div>

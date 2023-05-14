@@ -1,12 +1,26 @@
-import { Col, Layout, Row, Rate, Button, Radio } from "antd";
+import { Col, Layout, Row, Rate, Button, Radio, Card } from "antd";
 import styles from "./PersonalPage.module.css";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { OrderCard } from "../MainPage/OrderCard";
+import { NewOrder } from "../NewOrder/NewOrder";
+import { CommentPage } from "../Comment/CommentPage";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 export const PersonalPage = () => {
+
+  const [showNewOrder, setShowNewOrder] = useState(false);
+
+  const  showNewOrderHandler = () => {
+    setShowNewOrder(prevState => !prevState);
+  }
+
+  const [showCommentPage, setShowCommentPage] = useState(false);
+  const showCommentPageHandler = () => {
+    setShowCommentPage(prevState => !prevState);
+  }
+
   const releasedOrderNum = 4;
   const acceptedOrderNum = 11;
 
@@ -21,32 +35,130 @@ export const PersonalPage = () => {
     return (
       <div className={styles.contentBox1}>
         <Row gutter={16}>
-          <Col span={8}><OrderCard /></Col>
-          <Col span={8}><OrderCard /></Col>
-          <Col span={8}><OrderCard /></Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
         </Row>
         <Row gutter={16}>
-          <Col span={8}><OrderCard /></Col>
-          <Col span={8}><OrderCard /></Col>
-          <Col span={8}><OrderCard /></Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
         </Row>
       </div>
     );
   };
 
-  const ReleasedCard = () => {
-    return <div></div>;
+  const CommentedBox = () => {
+    return (
+      <div className={styles.contentBox1}>
+        <Row gutter={16}>
+          <Col span={8}>
+            <CommentedCard />
+          </Col>
+          <Col span={8}>
+            <CommentedCard />
+          </Col>
+          <Col span={8}>
+            <CommentedCard />
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={8}>
+            <CommentedCard />
+          </Col>
+          <Col span={8}>
+            <CommentedCard />
+          </Col>
+          <Col span={8}>
+            <CommentedCard />
+          </Col>
+        </Row>
+      </div>
+    );
   };
 
-  const CommentedBox = () => {
-    return <div className={styles.contentBox1}>222</div>;
+  const CommentedCard = () => {
+    const { Meta } = Card;
+    return (
+      <Card
+        className={styles.commentCard}
+        cover={<img src="./鼠标1.png" />}
+        actions={[
+          <div>￥ 299</div>,
+          <div>
+            <Rate disabled defaultValue={2} />
+          </div>,
+        ]}
+      >
+        <Meta
+          title={<div>罗技G502 电竞鼠标</div>}
+          description="很好，孩子喜欢，敏感肌也能用"
+        />
+      </Card>
+    );
   };
 
   const ToCommentBox = () => {
-    return <div className={styles.contentBox1}>333</div>;
+    return (
+      <div className={styles.contentBox1}>
+        <Row gutter={16}>
+          <Col span={8}>
+            <ToCommentCard />
+          </Col>
+          <Col span={8}>
+            <ToCommentCard />
+          </Col>
+          <Col span={8}>
+            <ToCommentCard />
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={8}>
+            <ToCommentCard />
+          </Col>
+          <Col span={8}>
+            <ToCommentCard />
+          </Col>
+          <Col span={8}>
+            <ToCommentCard />
+          </Col>
+        </Row>
+      </div>
+    );
   };
 
-  return (
+  const ToCommentCard = () => {
+    const { Meta } = Card;
+    return (
+      <Card
+        className={styles.commentCard}
+        cover={<img src="./原神1.png" />}
+        actions={[
+          <div>￥ 19.9</div>,
+          <Button type="link" size="small" onClick={showCommentPageHandler}>评价</Button>,
+        ]}
+      >
+        <Meta
+          title={<div>原神周边</div>}
+          description="室友的，帮他卖了，玩原神免费送"
+        />
+      </Card>
+    );
+  };
+
+  return <>
     <Layout>
       <Header className={styles.personalHeader}>
         <div>logo</div>
@@ -73,7 +185,7 @@ export const PersonalPage = () => {
                 </Col>
               </Row>
             </div>
-            <Button className={styles.releaseBtn}>
+            <Button className={styles.releaseBtn} onClick={showNewOrderHandler}>
               <PlusOutlined /> 发布订单
             </Button>
           </div>
@@ -97,5 +209,7 @@ export const PersonalPage = () => {
         </div>
       </Content>
     </Layout>
-  );
+    {showNewOrder && <NewOrder showCard={showNewOrderHandler}/>}
+    {showCommentPage && <CommentPage showCard={showCommentPageHandler}/>}
+  </>
 };
