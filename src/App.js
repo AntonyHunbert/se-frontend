@@ -11,6 +11,7 @@ import { CommentPage } from './Commponents/Comment/CommentPage';
 import { PersonalPage } from './Commponents/PersonalPage/PersonalPage';
 import { NewOrder } from './Commponents/NewOrder/NewOrder';
 import { OrderInfo } from './Commponents/OrderInfo/OrderInfo';
+import { ShowCommentPage } from './Commponents/ShowCommentPage/ShowCommentPage';
 
 function App() {
   const RouteTable = useRoutes(routes)
@@ -22,11 +23,11 @@ function App() {
     // <SignupPage/>
     // <MainPage />
     // <ChatPage/>
-    <CommentPage/>
+    // <CommentPage/>
     // <PersonalPage/>
     // <NewOrder/>
     // <OrderInfo/>
-
+    <ShowCommentPage/>
   );
 }
 
