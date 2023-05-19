@@ -1,8 +1,9 @@
 import styles from "./CommentPage.module.css";
-import { Row, Col, Upload, message, Button, Rate } from "antd";
+import { Row, Col, Upload, message, Button, Rate, Form } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { CloseOutlined, UploadOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
+import axios from 'axios';
 
 export const CommentPage = (props) => {
   const [score, setScore] = useState(0);
@@ -11,27 +12,24 @@ export const CommentPage = (props) => {
   const [picture, setPicture] = useState("");
   const [video, setVideo] = useState("");
   const [cnt, setCnt] = useState(1);
+  const [piclist, setPiclist] = useState([]);
 
-  const uploadProps = {
-    onChange(info) {
-      // 获取文件名用于造假
-      // console.log(info.file.name);
-      if (info.file.status === "error") {
-        setCnt(cnt + 1);
-        if (picture === "") {
-          setPicture(picture + "./" + info.file.name);
-        } else {
-          setPicture(picture + "-" + "./" + info.file.name);
-        }
-        if (info.file.status === "done") {
-          message.success(`${info.file.name} file uploaded successfully`);
-        } else if (info.file.status === "error") {
-          message.success(`${info.file.name} file uploaded successfully`);
-        }
+  //测试获取评价的数组
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: "http://localhost:8051/eval/get",
+      params: {
+        server: 1
       }
-    },
-    showUploadList: true,
-  };
+    })
+      .then(function (res) {
+        console.log(res.data.data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      })
+  }, [])
 
   // 获取到评分
   const getScore = (event) => {
@@ -44,38 +42,45 @@ export const CommentPage = (props) => {
     console.log(event.target.value);
   };
 
+  const setFileChange = (info) => {
+    setPiclist(info.fileList)
+  }
   const submitComment = () => {
+    let formData = new FormData();
+    formData.append(1, 1);
+    console.log(formData.get('1'))
     var statement1 = statementRef.current.resizableTextArea.textArea.value;
-    console.log(statement1);
-    console.log(score);
+    // console.log(statement1);
+    // console.log(score);
+    // console.log(piclist)
+    piclist.forEach((pic) => {
+      formData.append("file", pic.originFileObj)
+    })
+    formData.append("text", statement1);
+    formData.append("point", score);
+    formData.append("orderId", 1);
+    formData.append("client", 1);
+    formData.append("server", 1);
+    console.log(formData.get("file"))
     // console.log(picture);
-    // axios({
-    //     method: 'post',
-    //     url: "http://localhost:8080/guest/evaluate",
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         token: localStorage.getItem('token')
-    //     },
-    //     params: {
-    //         statement: statement1,
-    //         score: score,
-    //         picture: picture,
-    //         video: video,
-    //         recordId: recordId
-    //     }
-    // })
-    //     .then(function (res) {
-    //         console.log(res);
-    //     })
-    //     .catch(function (err) {
-    //         console.log(err);
-    //     })
+    axios({
+      method: 'post',
+      url: "http://localhost:8051/eval/add",
+      data: formData
+    })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (err) {
+        console.log(err);
+      })
   };
 
   return (
     <div className={styles.maskbox}>
       <div className={styles.commentCard}>
         <div className={styles.closeBox}>
+          <p >上传评价</p>
           <button className={styles.cardCloseBtn} onClick={props.showCard}>
             <CloseOutlined />
           </button>
@@ -104,6 +109,7 @@ export const CommentPage = (props) => {
                 placeholder="请输入评价(100字以内)"
                 onPressEnter={getText}
                 ref={statementRef}
+                name='text'
               ></TextArea>
             </Col>
           </Row>
@@ -114,7 +120,7 @@ export const CommentPage = (props) => {
             </Col>
             <Col span={18}>
               <div className={styles.scoreBox}>
-                <Upload {...uploadProps}>
+                <Upload onChange={setFileChange}>
                   <Button icon={<UploadOutlined />}>点击上传</Button>
                 </Upload>
               </div>
@@ -122,8 +128,8 @@ export const CommentPage = (props) => {
           </Row>
           <Row>
             <Col span={24}>
-              <div className={styles.commentSubmit} onClick={submitComment}>
-                <Button>提交</Button>
+              <div className={styles.commentSubmit}>
+                <Button onClick={submitComment}>提交</Button>
               </div>
             </Col>
           </Row>

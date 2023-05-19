@@ -5,8 +5,6 @@ import { SendOutlined, CloseOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 
 
-
-
 const ChatPage = () => {
   const [words, setWords] = useState([]);
   const [message, setMessage] = useState('');
@@ -14,23 +12,29 @@ const ChatPage = () => {
   const socketRef = useRef();
   const [currentObject, setCurrentObject] = useState('');
 
+  const currentObjectRef = useRef(currentObject);
+  useEffect(() => {
+    currentObjectRef.current = currentObject;
+  }, [currentObject]);
+
 
   useEffect(() => {
     const socketURL = "ws://localhost:8031/webserver/" + localStorage.getItem('stuId');
     socketRef.current = new WebSocket(socketURL);
     socketRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data)
       if (data.users && data.users.length != 1) {
         let realUsers = data.users.filter((num) => {
           return num.username != localStorage.getItem('stuId');
         })
         setUsers(realUsers)
-        setCurrentObject(realUsers[0].username)
+        // setCurrentObject(realUsers[0].username)
       }
       else {
-        console.log(data.from)
-        if (currentObject === data.from) {
+        // console.log(currentObject);
+        // console.log(data.from);
+        if (currentObjectRef.current === data.from) {
+          // console.log(localStorage.getItem('stuId') + '收到信息');
           setWords(prevWords => [...prevWords, { text: data.text, to: localStorage.getItem('stuId'), from: currentObject }]);
         }
       }
@@ -38,6 +42,11 @@ const ChatPage = () => {
     };
     return () => socketRef.current.close();
   }, []);
+
+  useEffect(() => {
+    console.log(currentObject);
+  }, [currentObject]);
+
 
 
   const handleInputChange = (event) => {
@@ -48,8 +57,6 @@ const ChatPage = () => {
     if (event.keyCode === 13) {
       sendMessage();
       event.preventDefault();
-      console.log(event);
-
     }
   }
 
@@ -72,17 +79,13 @@ const ChatPage = () => {
 
   }
 
-  const getCurrentObject = (event) => {
-    console.log(event.target.innerText);
-    setCurrentObject(event.target.innerText)
-  }
-
-
   return <div className={styles.maskbox}>
     <div className={styles.talk_box}>
       <div className={styles.userBox}>
         {users.map(item => (
-          <div className={styles.userNameBox} onClick={getCurrentObject}
+          <div className={styles.userNameBox} onClick={() => {
+            setCurrentObject(item.username)
+          }}
           >{item.username}</div>
         ))}
       </div>

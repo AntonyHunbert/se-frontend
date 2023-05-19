@@ -20,9 +20,9 @@ function App() {
     // </>
     // <LoginPage />
     // <SignupPage/>
-    <MainPage />
+    // <MainPage />
     // <ChatPage/>
-    // <CommentPage/>
+    <CommentPage/>
     // <PersonalPage/>
     // <NewOrder/>
     // <OrderInfo/>
