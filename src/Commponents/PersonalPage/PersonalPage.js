@@ -178,6 +178,35 @@ export const PersonalPage = () => {
     );
   };
 
+  const AcceptedBox = () => {
+    return (
+      <div className={styles.contentBox1}>
+        <Row gutter={16}>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+          <Col span={8}>
+            <OrderCard />
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+
   const ToCommentCard = () => {
     const { Meta } = Card;
     return (
@@ -235,14 +264,17 @@ export const PersonalPage = () => {
                 <Radio.Button value={1}>我的发布</Radio.Button>
                 <Radio.Button value={2}>已评价的订单</Radio.Button>
                 <Radio.Button value={3}>未评价的订单</Radio.Button>
+                <Radio.Button value={4}>我的接单</Radio.Button>
               </Radio.Group>
             </div>
             {showContent === 1 ? (
               <MyReleasedBox />
             ) : showContent === 2 ? (
               <CommentedBox />
-            ) : (
+            ) : showContent === 3 ? (
               <ToCommentBox />
+            ) : (
+              <AcceptedBox/>
             )}
           </div>
         </div>
