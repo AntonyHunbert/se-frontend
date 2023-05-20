@@ -21,13 +21,13 @@ function App() {
     // </>
     // <LoginPage />
     // <SignupPage/>
-    // <MainPage />
+    <MainPage />
     // <ChatPage/>
     // <CommentPage/>
     // <PersonalPage/>
     // <NewOrder/>
     // <OrderInfo/>
-    <ShowCommentPage/>
+    // <ShowCommentPage/>
   );
 }
 

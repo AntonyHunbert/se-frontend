@@ -53,6 +53,7 @@ export const OrderInfo = (props) => {
                     </Col>
                   </Row>
                 </div>
+                <Button>对TA的评价</Button>
               </div>
             </div>
             <div className={styles.btnBox}>
