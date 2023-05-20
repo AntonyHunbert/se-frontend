@@ -11,7 +11,8 @@ import {
 } from "antd";
 // import { Content, Header } from "antd/es/layout/layout";
 // import Sider from "antd/es/layout/Sider";
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import styles from "./MainPage.module.css";
 import {
   LockOutlined,
@@ -22,6 +23,35 @@ import { OrderCard } from "./OrderCard";
 
 const { Header, Content, Footer, Sider } = Layout;
 const MainPage = () => {
+
+  const [type, setType] = useState(1);
+  const [goods, setGoods] = useState([]);
+
+
+  // const [demoArr, setDemoArr] = useState([]);
+
+  //根据type搜，就是跳蚤市场，外卖和作业 1是跑腿，2是作业，3是跳蚤市场
+  //返回自己发的订单，根据订单状态搜索
+  //返回自己接了什么单
+
+  useEffect(() => {
+    axios({
+      url: 'http://localhost:8011/user/select/noserver',
+      method: 'post',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        type: type
+      }
+    }).then(function (response) {
+      console.log(response);
+    })
+      .catch(function (err) {
+        console.log(err);
+      })
+  }, [type])
+
   const mainNavItems = [
     {
       key: "flea",
@@ -84,13 +114,52 @@ const MainPage = () => {
   const [openKeys, setOpenKeys] = useState(["flea"]);
 
   const onOpenChange = (keys) => {
+
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (rootSiderKeys.indexOf(latestOpenKey) === -1) {
       setOpenKeys(keys);
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
+
+    if (keys[0] === 'order') {
+      setType(1)
+    }
+    else if (keys[0] === 'flea') {
+      setType(3)
+    }
+    else if (keys[0] === 'info') {
+      setType(2)
+    }
   };
+
+
+
+
+  // const convertTo2DArray = (array, columns) => {
+  //   const rows = Math.ceil(array.length / columns); // 计算需要的行数
+  //   const result = [];
+
+  //   for (let i = 0; i < rows; i++) {
+  //     const row = Array.from(array.slice(i * columns, (i + 1) * columns)); // 获取当前行的元素
+  //     while (row.length < columns) {
+  //       row.push(undefined); // 填充剩余空位
+  //     }
+  //     result.push(row);
+  //   }
+
+  //   return result;
+  // }
+
+  // const test = [true, true, true, true, true, true, true, true, 1]
+
+
+
+
+
+  // const demoChange = () => {
+  //   setDemoArr(convertTo2DArray(test, 4));
+  // }
 
   const { Search } = Input;
 
@@ -105,6 +174,9 @@ const MainPage = () => {
 
   return (
     <>
+
+      {/* <button onClick={demoChange}></button> */}
+
       <Layout>
         <Header
           className={styles.mainHeader}
@@ -150,7 +222,7 @@ const MainPage = () => {
             />
           </Sider>
           <Content>
-            {/* <div className={styles.content}> */}
+
             <div className={styles.sortingBox}>
               <Search
                 placeholder="input search text"
@@ -202,54 +274,33 @@ const MainPage = () => {
             </div>
             <div className={styles.mainContent}>
               {/* 放卡片在这里（整个系统的主题色和背景都还没定，这个是我随便找的） */}
-              <Row gutter={16}>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-              </Row>
-              <Row gutter={16}>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-              </Row>
-              <Row gutter={16}>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-                <Col span={6}>
-                  <OrderCard />
-                </Col>
-              </Row>
+              {
+                <Row gutter={16}>
+                  <Col span={8}>
+                    <OrderCard />
+                  </Col>
+                  <Col span={8}>
+                    <OrderCard />
+                  </Col>
+                  <Col span={8}>
+                    <OrderCard />
+                  </Col>
+                </Row>
+
+
+                // demoArr.map(item => (<Row gutter={16}>
+                //   {item.map(index => ({
+
+
+                //   }))}
+                // </Row>))
+              }
+
             </div>
 
-            {/* </div> */}
           </Content>
         </Layout>
-      </Layout>
+      </Layout >
     </>
   );
 };

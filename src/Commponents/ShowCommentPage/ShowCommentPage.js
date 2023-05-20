@@ -1,16 +1,35 @@
 import { Col, Layout, Row, Rate, Button, Radio, Card } from "antd";
 import styles from "./ShowCommentPage.module.css";
-import { PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import { OrderCard } from "../MainPage/OrderCard";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { NewOrder } from "../NewOrder/NewOrder";
 import { CommentPage } from "../Comment/CommentPage";
 import { ShowCommentCard } from "./ShowCommentCard";
 
 const { Header, Content, Footer, Sider } = Layout;
 
+
 export const ShowCommentPage = () => {
   const [showNewOrder, setShowNewOrder] = useState(false);
+  const [commentDetail, setCommentDetail] = useState();
+
+  //测试获取评价的数组
+  useEffect(() => {
+    axios({
+      method: 'get',
+      url: "http://localhost:8051/eval/get",
+      params: {
+        server: 1
+      }
+    })
+      .then(function (res) {
+        setCommentDetail(res.data.data)
+        console.log(res.data.data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      })
+  }, [])
 
   const showNewOrderHandler = () => {
     setShowNewOrder((prevState) => !prevState);
@@ -34,6 +53,7 @@ export const ShowCommentPage = () => {
   const CommentedBox = () => {
     return (
       <div className={styles.contentBox1}>
+
         <Row gutter={16}>
           <Col span={8}>
             <ShowCommentCard />
@@ -94,7 +114,7 @@ export const ShowCommentPage = () => {
 
             <div className={styles.orderBox}>
               <div className={styles.selectNav}>对TA的评价</div>
-              <CommentedBox/>
+              <CommentedBox />
             </div>
           </div>
         </Content>

@@ -14,23 +14,6 @@ export const CommentPage = (props) => {
   const [cnt, setCnt] = useState(1);
   const [piclist, setPiclist] = useState([]);
 
-  //测试获取评价的数组
-  useEffect(() => {
-    axios({
-      method: 'get',
-      url: "http://localhost:8051/eval/get",
-      params: {
-        server: 1
-      }
-    })
-      .then(function (res) {
-        console.log(res.data.data);
-      })
-      .catch(function (err) {
-        console.log(err);
-      })
-  }, [])
-
   // 获取到评分
   const getScore = (event) => {
     console.log(event);

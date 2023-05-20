@@ -1,18 +1,57 @@
 import { Col, Layout, Row, Rate, Button, Radio, Card } from "antd";
 import styles from "./PersonalPage.module.css";
 import { PlusOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { OrderCard } from "../MainPage/OrderCard";
 import { NewOrder } from "../NewOrder/NewOrder";
 import { CommentPage } from "../Comment/CommentPage";
+import axios from "axios";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 export const PersonalPage = () => {
 
+  // useEffect(() => {
+  //   axios({
+  //     url: 'http://localhost:8011/user/select/client',
+  //     method: 'post',
+  //     headers: {
+  //       'content-type': 'application/x-www-form-urlencoded'
+  //     },
+  //     data: {
+  //       client: 12011941,
+  //       task_status: 1
+  //     }
+  //   }).then(function (response) {
+  //     console.log(response);
+  //   })
+  //     .catch(function (err) {
+  //       console.log(err);
+  //     })
+  // }, [])
+
+  useEffect(() => {
+    axios({
+      url: 'http://localhost:8011/user/select/server',
+      method: 'post',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        server: 12011941,
+        status: 1
+      }
+    }).then(function (response) {
+      console.log(response);
+    })
+      .catch(function (err) {
+        console.log(err);
+      })
+  }, [])
+
   const [showNewOrder, setShowNewOrder] = useState(false);
 
-  const  showNewOrderHandler = () => {
+  const showNewOrderHandler = () => {
     setShowNewOrder(prevState => !prevState);
   }
 
@@ -209,7 +248,7 @@ export const PersonalPage = () => {
         </div>
       </Content>
     </Layout>
-    {showNewOrder && <NewOrder showCard={showNewOrderHandler}/>}
-    {showCommentPage && <CommentPage showCard={showCommentPageHandler}/>}
+    {showNewOrder && <NewOrder showCard={showNewOrderHandler} />}
+    {showCommentPage && <CommentPage showCard={showCommentPageHandler} />}
   </>
 };

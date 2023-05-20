@@ -23,11 +23,11 @@ function App() {
     // <SignupPage/>
     // <MainPage />
     // <ChatPage/>
-    // <CommentPage/>
-    // <PersonalPage/>
-    // <NewOrder/>
-    // <OrderInfo/>
-    <ShowCommentPage/>
+    // <CommentPage />
+    <PersonalPage />
+    // <NewOrder />
+    // <OrderInfo />
+    // <ShowCommentPage />
   );
 }
 
