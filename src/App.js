@@ -24,10 +24,10 @@ function App() {
     // <MainPage />
     // <ChatPage/>
     // <CommentPage />
-    <PersonalPage />
+    // <PersonalPage />
     // <NewOrder />s
     // <OrderInfo />
-    // <ShowCommentPage />
+    <ShowCommentPage />
   );
 }
 

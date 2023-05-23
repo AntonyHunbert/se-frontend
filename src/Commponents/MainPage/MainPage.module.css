@@ -74,6 +74,8 @@
     /* position: fixed; */
     top: 20vh;
     padding: 2vh 1vw;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .content {

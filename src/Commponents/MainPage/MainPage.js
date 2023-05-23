@@ -251,21 +251,11 @@ const MainPage = () => {
             </div>
             <div className={styles.mainContent}>
               {/* 放卡片在这里（整个系统的主题色和背景都还没定，这个是我随便找的） */}
-              {
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <OrderCard />
-                  </Col>
-                  <Col span={8}>
-                    <OrderCard />
-                  </Col>
-                  <Col span={8}>
-                    <OrderCard />
-                  </Col>
-                </Row>
-
-              }
-
+              <OrderCard/>
+              <OrderCard/>
+              <OrderCard/>
+              <OrderCard/>
+              <OrderCard/>
             </div>
 
           </Content>

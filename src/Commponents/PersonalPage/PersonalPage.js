@@ -1,4 +1,4 @@
-import { Col, Layout, Row, Rate, Button, Radio, Card } from "antd";
+import { Col, Layout, Row, Rate, Button, Radio, Card, Cascader } from "antd";
 import styles from "./PersonalPage.module.css";
 import { PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
@@ -6,6 +6,8 @@ import { OrderCard } from "../MainPage/OrderCard";
 import { NewOrder } from "../NewOrder/NewOrder";
 import { CommentPage } from "../Comment/CommentPage";
 import axios from "axios";
+import CommitedCard from "./CommitedCard";
+import NotCommitCard from "./NotCommitCard";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -63,168 +65,147 @@ export const PersonalPage = () => {
   const releasedOrderNum = 4;
   const acceptedOrderNum = 11;
 
-  const [showContent, setShowContent] = useState(1);
+  const [showContent, setShowContent] = useState('sellOver');
 
   const selectContentHandler = (e) => {
-    console.log(e.target.value);
-    setShowContent(e.target.value);
+    console.log(e[2]);
+    setShowContent(e[2]);
   };
 
-  const MyReleasedBox = () => {
+  const OrderCardBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <Row gutter={16}>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-        </Row>
+        <OrderCard/>
+        <OrderCard/>
+        <OrderCard/>
+        <OrderCard/>
+        <OrderCard/>
       </div>
     );
   };
 
-  const CommentedBox = () => {
+  const CommitedCardBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <Row gutter={16}>
-          <Col span={8}>
-            <CommentedCard />
-          </Col>
-          <Col span={8}>
-            <CommentedCard />
-          </Col>
-          <Col span={8}>
-            <CommentedCard />
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <CommentedCard />
-          </Col>
-          <Col span={8}>
-            <CommentedCard />
-          </Col>
-          <Col span={8}>
-            <CommentedCard />
-          </Col>
-        </Row>
-      </div>
-    );
-  };
+        <CommitedCard/>
+        <CommitedCard/>
+        <CommitedCard/>
+        <CommitedCard/>
 
-  const CommentedCard = () => {
-    const { Meta } = Card;
-    return (
-      <Card
-        className={styles.commentCard}
-        cover={<img src="./鼠标1.png" />}
-        actions={[
-          <div>￥ 299</div>,
-          <div>
-            <Rate disabled defaultValue={2} />
-          </div>,
-        ]}
-      >
-        <Meta
-          title={<div>罗技G502 电竞鼠标</div>}
-          description="很好，孩子喜欢，敏感肌也能用"
-        />
-      </Card>
-    );
-  };
-
-  const ToCommentBox = () => {
-    return (
-      <div className={styles.contentBox1}>
-        <Row gutter={16}>
-          <Col span={8}>
-            <ToCommentCard />
-          </Col>
-          <Col span={8}>
-            <ToCommentCard />
-          </Col>
-          <Col span={8}>
-            <ToCommentCard />
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <ToCommentCard />
-          </Col>
-          <Col span={8}>
-            <ToCommentCard />
-          </Col>
-          <Col span={8}>
-            <ToCommentCard />
-          </Col>
-        </Row>
-      </div>
-    );
-  };
-
-  const AcceptedBox = () => {
-    return (
-      <div className={styles.contentBox1}>
-        <Row gutter={16}>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-          <Col span={8}>
-            <OrderCard />
-          </Col>
-        </Row>
       </div>
     );
   }
 
-  const ToCommentCard = () => {
-    const { Meta } = Card;
+  const NotCommitCardBox = () => {
     return (
-      <Card
-        className={styles.commentCard}
-        cover={<img src="./原神1.png" />}
-        actions={[
-          <div>￥ 19.9</div>,
-          <Button type="link" size="small" onClick={showCommentPageHandler}>评价</Button>,
-        ]}
-      >
-        <Meta
-          title={<div>原神周边</div>}
-          description="室友的，帮他卖了，玩原神免费送"
-        />
-      </Card>
+      <div className={styles.contentBox1}>
+        <NotCommitCard showCommentPage={showCommentPageHandler}/>
+        <NotCommitCard showCommentPage={showCommentPageHandler}/>
+        <NotCommitCard showCommentPage={showCommentPageHandler}/>
+        <NotCommitCard showCommentPage={showCommentPageHandler}/>
+        <NotCommitCard showCommentPage={showCommentPageHandler}/>
+
+      </div>
     );
-  };
+  }
+
+  const navOptions = [
+    {
+      value: 'flea',
+      label: '跳蚤市场',
+      children: [
+        {
+          value: 'sell',
+          label: '我卖的东西',
+          children: [
+            {
+              // 已经卖出的商品，不用展示别人的评价
+              value: 'sellOver',
+              label: '成功卖出',
+            },
+            {
+              // 还在售卖的商品
+              value: 'stillSell',
+              label: '售卖中',
+            }
+          ]
+        },
+        {
+          value: 'buy',
+          label: '我买的东西',
+          children: [
+            {
+              // 确认收货
+              value: 'buyOver',
+              label: '已完成'
+            },
+            {
+              // 还未确认收货，确认收货后需要评价（强制）
+              value: 'stillBuy',
+              label: '未完成'
+            }
+          ]
+        }
+      ],
+    },
+    {
+      // 任务和信息
+      value: 'order',
+      label: '任务和信息',
+      children: [
+        {
+          // 我发布的任务
+          value: 'send',
+          label: '我发布的任务',
+          children: [
+            {
+              // 还没人接
+              value: 'stillSend',
+              label: '等待接单',
+            },
+            {
+              // 已接单未完成，需要确认并评价
+              value: 'employerDoing',
+              label: '未完成'
+            },
+            {
+              // 已完成，不需要展示评价
+              value: 'sendOver',
+              label: '已完成'
+            }
+          ]
+        },
+        {
+          // 我接的任务
+          value: 'myTake',
+          label: '我接的任务',
+          children: [
+            {
+              // 正在进行中，展示信息
+              value: 'myDoing',
+              label: '进行中'
+            },
+            {
+              // 我已经完成的任务
+              value: 'myFinish',
+              label: '已完成'
+            }
+          ]
+        }
+
+      ]
+    }
+  ]
+
+  const SelectShowBox = () => {
+    if ((showContent === 'stillSend') || (showContent === 'stillSell')) {
+      return <OrderCardBox/>
+    }else if ((showContent === 'sellOver') || (showContent === 'buyOver') || (showContent === 'myDoing') || (showContent === 'myFinish') || (showContent === 'sendOver')) {
+      return <CommitedCardBox />
+    }else {
+      return <NotCommitCardBox/>
+    }
+  }
 
   return <>
     <Layout>
@@ -260,23 +241,9 @@ export const PersonalPage = () => {
 
           <div className={styles.orderBox}>
             <div className={styles.selectNav}>
-              <Radio.Group onChange={selectContentHandler} defaultValue={1}>
-                <Radio.Button value={1}>我的发布</Radio.Button>
-                <Radio.Button value={4}>我的接单</Radio.Button>
-                <Radio.Button value={2}>已评价的订单</Radio.Button>
-                <Radio.Button value={3}>未评价的订单</Radio.Button>
-
-              </Radio.Group>
+              <Cascader defaultValue={['flea', 'sell', 'sellOver']} options={navOptions} onChange={selectContentHandler} className={styles.chooseNav}/>
             </div>
-            {showContent === 1 ? (
-              <MyReleasedBox />
-            ) : showContent === 2 ? (
-              <CommentedBox />
-            ) : showContent === 3 ? (
-              <ToCommentBox />
-            ) : (
-              <AcceptedBox />
-            )}
+            {<SelectShowBox/>}
           </div>
         </div>
       </Content>
