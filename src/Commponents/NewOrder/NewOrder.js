@@ -27,6 +27,12 @@ export const NewOrder = (props) => {
 };
 
 const OrderForm = () => {
+
+  const [tag, setTag] = useState([]);
+  const [price, setPrice] = useState(100);
+  const [detail, setDetail] = useState('');
+
+
   const tagOptions = [
     {
       label: "跳蚤市场",
@@ -108,9 +114,22 @@ const OrderForm = () => {
     },
   ];
 
-  //   const tagOnchange = (value) => {
-  //     console.log(value);
-  //   };
+  const tagOnChange = (e) => {
+    //返回的是一个数组，索引值为级联层数  
+    console.log(e);
+    var type;
+    if (e[0] === 'order') {
+      type = 1;
+    }
+    else if (e[0] === 'flea') {
+      type = 3;
+    }
+    else if (e[0] === 'info') {
+      type = 2;
+    }
+    setTag([tag[0], type]);
+
+  };
 
   const { TextArea } = Input;
 
@@ -137,12 +156,20 @@ const OrderForm = () => {
     showUploadList: true,
   };
 
+  const changePrice = (e) => {
+    setPrice(e);
+  }
+
+  const changeDetail = (e) => {
+    // console.log(e.target.value);
+    setDetail(e.target.value)
+  }
   return (
     <div className={styles.orderForm}>
       <Form
         labelCol={{
           span: 3,
-            offset: 2,
+          offset: 2,
         }}
         wrapperCol={{
           span: 15,
@@ -178,9 +205,10 @@ const OrderForm = () => {
             }}
             options={tagOptions}
             defaultValue={[["flea", "3c"]]}
-            // 当前可以选择最多3个标签，如果要改成只能选1个，将下面两行注释掉即可
-            multiple
-            maxTagCount="3"
+            onChange={tagOnChange}
+          // 当前可以选择最多3个标签，如果要改成只能选1个，将下面两行注释掉即可
+          // multiple
+          // maxTagCount="3"
           />
         </Form.Item>
 
@@ -194,7 +222,7 @@ const OrderForm = () => {
             },
           ]}
         >
-          <InputNumber addonAfter="￥" defaultValue={100} style={{ width: "80%"}}/>
+          <InputNumber addonAfter="￥" defaultValue={100} style={{ width: "80%" }} onChange={changePrice} />
         </Form.Item>
 
         <Form.Item label={<p>描述</p>} name="description">
@@ -207,6 +235,7 @@ const OrderForm = () => {
               width: "100%",
             }}
             placeholder="简单的描述详情"
+            onChange={changeDetail}
           />
         </Form.Item>
 
@@ -219,7 +248,7 @@ const OrderForm = () => {
         </Form.Item>
 
         <Form.Item className={styles.releaseBtn}>
-            <Button  htmlType='submit' style={{ width: "10vw" }}>发布</Button>
+          <Button htmlType='submit' style={{ width: "10vw" }}>发布</Button>
         </Form.Item>
       </Form>
     </div>

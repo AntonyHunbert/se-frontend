@@ -133,33 +133,9 @@ const MainPage = () => {
     }
   };
 
-
-
-
-  // const convertTo2DArray = (array, columns) => {
-  //   const rows = Math.ceil(array.length / columns); // 计算需要的行数
-  //   const result = [];
-
-  //   for (let i = 0; i < rows; i++) {
-  //     const row = Array.from(array.slice(i * columns, (i + 1) * columns)); // 获取当前行的元素
-  //     while (row.length < columns) {
-  //       row.push(undefined); // 填充剩余空位
-  //     }
-  //     result.push(row);
-  //   }
-
-  //   return result;
-  // }
-
-  // const test = [true, true, true, true, true, true, true, true, 1]
-
-
-
-
-
-  // const demoChange = () => {
-  //   setDemoArr(convertTo2DArray(test, 4));
-  // }
+  const clickItem = (e) => {
+    console.log(e.key);
+  }
 
   const { Search } = Input;
 
@@ -219,6 +195,7 @@ const MainPage = () => {
               openKeys={openKeys}
               onOpenChange={onOpenChange}
               items={siderNavItems}
+              onClick={clickItem}
             />
           </Sider>
           <Content>
@@ -231,7 +208,7 @@ const MainPage = () => {
                 size={"large"}
                 className={styles.search}
               />
-              <Select
+              {/* <Select
                 defaultValue={"timeNewToOld"}
                 width={"7vw"}
                 onChange={handleSort}
@@ -270,7 +247,7 @@ const MainPage = () => {
                 value={orderStatus}
                 optionType="button"
                 buttonStyle="solid"
-              />
+              /> */}
             </div>
             <div className={styles.mainContent}>
               {/* 放卡片在这里（整个系统的主题色和背景都还没定，这个是我随便找的） */}
@@ -287,13 +264,6 @@ const MainPage = () => {
                   </Col>
                 </Row>
 
-
-                // demoArr.map(item => (<Row gutter={16}>
-                //   {item.map(index => ({
-
-
-                //   }))}
-                // </Row>))
               }
 
             </div>

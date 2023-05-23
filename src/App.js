@@ -25,7 +25,7 @@ function App() {
     // <ChatPage/>
     // <CommentPage />
     <PersonalPage />
-    // <NewOrder />
+    // <NewOrder />s
     // <OrderInfo />
     // <ShowCommentPage />
   );
