@@ -20,11 +20,10 @@ import {
   FieldTimeOutlined,
 } from "@ant-design/icons";
 import { OrderCard } from "./OrderCard";
-
 const { Header, Content, Footer, Sider } = Layout;
 const MainPage = () => {
 
-  const [type, setType] = useState(1);
+  const [type, setType] = useState(3);
   const [goods, setGoods] = useState([]);
 
 
@@ -36,7 +35,7 @@ const MainPage = () => {
 
   useEffect(() => {
     axios({
-      url: 'http://localhost:8011/user/select/noserver',
+      url: 'http://localhost:8011/user/select/bytype',
       method: 'post',
       headers: {
         'content-type': 'application/x-www-form-urlencoded'
@@ -112,6 +111,8 @@ const MainPage = () => {
   const rootSiderKeys = ["flea", "order", "info"];
 
   const [openKeys, setOpenKeys] = useState(["flea"]);
+  const [label, setLabel] = useState('');
+  const [order, setOrder] = useState('金钱升序');
 
   const onOpenChange = (keys) => {
 
@@ -121,7 +122,7 @@ const MainPage = () => {
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
-
+    console.log(keys);
     if (keys[0] === 'order') {
       setType(1)
     }
@@ -134,14 +135,53 @@ const MainPage = () => {
   };
 
   const clickItem = (e) => {
-    console.log(e.key);
+    // console.log(e.key);
+    setLabel(e.key);
+    axios({
+      url: 'http://localhost:8011/user/select/bylabel',
+      method: 'post',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        type: type,
+        label: e.key,
+        status: 1,
+        order: order
+      }
+    }).then(function (response) {
+      console.log(response);
+    })
+      .catch(function (err) {
+        console.log(err);
+      })
   }
 
   const { Search } = Input;
 
   const onSearch = (value) => console.log(value);
 
-  const handleSort = (value) => console.log(`selected ${value}`);
+  const handleSort = (value) => {
+    setOrder(value);
+    axios({
+      url: 'http://localhost:8011/user/select/bylabel',
+      method: 'post',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        type: type,
+        label: label,
+        status: 1,
+        order: value
+      }
+    }).then(function (response) {
+      console.log(response);
+    })
+      .catch(function (err) {
+        console.log(err);
+      })
+  }
 
   const orderStatusChange = (value) => {
     console.log("checked", value.target.value);
@@ -201,14 +241,14 @@ const MainPage = () => {
           <Content>
 
             <div className={styles.sortingBox}>
-              <Search
+              {/* <Search
                 placeholder="input search text"
                 allowClear
                 onSearch={onSearch}
                 size={"large"}
                 className={styles.search}
-              />
-              {/* <Select
+              /> */}
+              <Select
                 defaultValue={"timeNewToOld"}
                 width={"7vw"}
                 onChange={handleSort}
@@ -223,16 +263,16 @@ const MainPage = () => {
                     ),
                   },
                   {
-                    value: "priceHighToLow",
+                    value: "金钱升序",
                     label: <div className={styles.select1}>价格从高到低</div>,
                   },
                   {
-                    value: "priceLowToHigh",
+                    value: "金钱降序",
                     label: <div className={styles.select1}>价格从低到高</div>,
                   },
                 ]}
               />
-              <Radio.Group
+              {/* <Radio.Group
                 options={[
                   {
                     value: "sell",
@@ -256,6 +296,8 @@ const MainPage = () => {
               <OrderCard/>
               <OrderCard/>
               <OrderCard/>
+
+
             </div>
 
           </Content>
