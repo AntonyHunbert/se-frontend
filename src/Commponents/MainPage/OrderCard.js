@@ -33,7 +33,7 @@ export const OrderCard = (props) => {
                 <div>{client_id}</div>,
                 <div>￥ {props.price}</div>,
                 <div onClick={showOrderInfoHandler}><EllipsisOutlined />详情</div>,
-                <Button onClick={jumpToChat}><MessageOutlined />聊天</Button>
+                <Button onClick={jumpToChat} type='link' size='small'><MessageOutlined />聊天</Button>
             ]}
         >
             <Meta
