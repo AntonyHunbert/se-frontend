@@ -7,7 +7,7 @@ export const ShowCommentCard = () => {
   return (
     <Card
       className={styles.commentCard}
-      cover={<img src="./鼠标1.png" />}
+      cover={<img src="./鼠标1.png" className={styles.imgSize} />}
       actions={[
         <div className={styles.commentUser}>翻斗花园壮壮妈: </div>,
         <div>

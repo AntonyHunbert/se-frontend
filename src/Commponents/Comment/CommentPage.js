@@ -30,8 +30,8 @@ export const CommentPage = (props) => {
   }
   const submitComment = () => {
     let formData = new FormData();
-    formData.append(1, 1);
-    console.log(formData.get('1'))
+    // formData.append(1, 1);
+    // console.log(formData.get('1'))
     var statement1 = statementRef.current.resizableTextArea.textArea.value;
     // console.log(statement1);
     // console.log(score);

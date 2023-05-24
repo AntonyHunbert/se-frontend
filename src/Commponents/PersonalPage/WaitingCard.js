@@ -1,7 +1,7 @@
 import styles from './CardStyle.module.css'
-import { Card } from 'antd'
+import { Button, Card } from 'antd'
 
-export default function CommitedCard() {
+export default function WaitingCard() {
     const { Meta } = Card;
     return (
         <Card
@@ -9,12 +9,14 @@ export default function CommitedCard() {
             className={styles.card}
             cover={<img src='./键盘1.jpg' className={styles.imgSize} />}
             actions={[
-                <div>￥ 199</div>,
-                <div>机械键盘</div>
+                <div>￥ 1</div>,
+
+                <Button type='link' size='small'>删除订单</Button>
             ]}
         >
             <Meta
-                description="高斯机械键盘，上个月购入，几乎没怎么用"
+                title={<div>1 </div>}
+                description={1}
             />
         </Card>
     )

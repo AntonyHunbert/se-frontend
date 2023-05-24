@@ -1,4 +1,3 @@
-
 .mainHeader {
     /* position: fixed; */
     /* z-index: 999; */
@@ -57,7 +56,7 @@
     position: sticky;
     top: 8vh;
     z-index: 1;
-    width: 35vw;
+    width: 15vw;
     height: 6vh;
     background-color: #fff;
     border-radius: 10px;

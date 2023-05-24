@@ -8,40 +8,23 @@ import { CommentPage } from "../Comment/CommentPage";
 import axios from "axios";
 import CommitedCard from "./CommitedCard";
 import NotCommitCard from "./NotCommitCard";
+import WaitingCard from "./WaitingCard";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 export const PersonalPage = () => {
 
-  // useEffect(() => {
-  //   axios({
-  //     url: 'http://localhost:8011/user/select/client',
-  //     method: 'post',
-  //     headers: {
-  //       'content-type': 'application/x-www-form-urlencoded'
-  //     },
-  //     data: {
-  //       client: 12011941,
-  //       task_status: 1
-  //     }
-  //   }).then(function (response) {
-  //     console.log(response);
-  //   })
-  //     .catch(function (err) {
-  //       console.log(err);
-  //     })
-  // }, [])
-
   useEffect(() => {
     axios({
-      url: 'http://localhost:8011/user/select/server',
+      url: 'http://localhost:8011/user/select/client',
       method: 'post',
       headers: {
         'content-type': 'application/x-www-form-urlencoded'
       },
       data: {
-        server: 12011941,
-        status: 1
+        client: 12011941,
+        status: 3,
+        type: 3
       }
     }).then(function (response) {
       console.log(response);
@@ -68,18 +51,113 @@ export const PersonalPage = () => {
   const [showContent, setShowContent] = useState('sellOver');
 
   const selectContentHandler = (e) => {
-    console.log(e[2]);
+    console.log(e);
+
+    var type;
+    var position;
+    var status;
+
+    var path;
+
+    if (e[0] === 'order') {
+      type = 1;
+    }
+    else if (e[0] === 'flea') {
+      type = 3;
+    }
+    else if (e[0] === 'info') {
+      type = 2;
+    }
+
+    if (e[1] === 'sell' || e[1] === 'send' || e[1] == 'sendInfo') {
+      position = 'client';
+    }
+    else {
+      position = 'server'
+    }
+
+    if (e[2] === 'sellOver') {
+      status = '2,3'
+    }
+    else if (e[2] === 'stillSell') {
+      status = '1'
+    }
+    else if (e[2] === 'buyOver') {
+      status = '3'
+    }
+    else if (e[2] === 'stillBuy') {
+      status = '1,2'
+    }
+    else if (e[2] === 'stillSend') {
+      status = '1'
+    }
+    else if (e[2] === 'employerDoing') {
+      status = '2'
+    }
+    else if (e[2] === 'sendOver') {
+      status = '3'
+    }
+    else if (e[2] === 'stillInfo') {
+      status = '1'
+    }
+    else if (e[2] === 'anwsering') {
+      status = '2'
+    }
+    else if (e[2] === 'infoOver') {
+      status = '3'
+    }
+    else if (e[2] === 'myAmswering') {
+      status = '2'
+    }
+    else if (e[2] === 'myFinishInfo') {
+      status = '3'
+    }
+    else if (e[2] === 'myFinish') {
+      status = '3'
+    }
+    else if (e[2] === 'myDoing') {
+      status = '2'
+    }
+
+
+    if (position === 'server') {
+      path = 'http://localhost:8011/user/select/server'
+    }
+    else if (position === 'client') {
+      path = 'http://localhost:8011/user/select/client'
+    }
+
+
+    axios({
+      url: path,
+      method: 'post',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        [position]: 12011941,
+        status: status,
+        type: type
+      }
+    }).then(function (response) {
+      console.log(response);
+    })
+      .catch(function (err) {
+        console.log(err);
+      })
+
+
     setShowContent(e[2]);
   };
 
   const OrderCardBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <OrderCard/>
-        <OrderCard/>
-        <OrderCard/>
-        <OrderCard/>
-        <OrderCard/>
+        <WaitingCard />
+        <WaitingCard />
+        <WaitingCard />
+        <WaitingCard />
+
       </div>
     );
   };
@@ -87,10 +165,10 @@ export const PersonalPage = () => {
   const CommitedCardBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <CommitedCard/>
-        <CommitedCard/>
-        <CommitedCard/>
-        <CommitedCard/>
+        <CommitedCard />
+        <CommitedCard />
+        <CommitedCard />
+        <CommitedCard />
 
       </div>
     );
@@ -99,11 +177,11 @@ export const PersonalPage = () => {
   const NotCommitCardBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <NotCommitCard showCommentPage={showCommentPageHandler}/>
-        <NotCommitCard showCommentPage={showCommentPageHandler}/>
-        <NotCommitCard showCommentPage={showCommentPageHandler}/>
-        <NotCommitCard showCommentPage={showCommentPageHandler}/>
-        <NotCommitCard showCommentPage={showCommentPageHandler}/>
+        <NotCommitCard showCommentPage={showCommentPageHandler} />
+        <NotCommitCard showCommentPage={showCommentPageHandler} />
+        <NotCommitCard showCommentPage={showCommentPageHandler} />
+        <NotCommitCard showCommentPage={showCommentPageHandler} />
+        <NotCommitCard showCommentPage={showCommentPageHandler} />
 
       </div>
     );
@@ -149,9 +227,9 @@ export const PersonalPage = () => {
       ],
     },
     {
-      // 任务和信息
+      // 任务
       value: 'order',
-      label: '任务和信息',
+      label: '任务',
       children: [
         {
           // 我发布的任务
@@ -194,16 +272,63 @@ export const PersonalPage = () => {
         }
 
       ]
+    },
+    {
+      // 信息
+      value: 'info',
+      label: '信息',
+      children: [
+        {
+          // 我发布的信息
+          value: 'sendInfo',
+          label: '我发布的咨询',
+          children: [
+            {
+              // 还没人接的信息
+              value: 'stillInfo',
+              label: '等待回答',
+            },
+            {
+              // 已接单未完成，需要确认并评价
+              value: 'anwsering',
+              label: '未完成'
+            },
+            {
+              // 已完成，不需要展示评价
+              value: 'infoOver',
+              label: '已完成'
+            }
+          ]
+        },
+        {
+          // 我接的信息回答
+          value: 'myInfo',
+          label: '我的回答',
+          children: [
+            {
+              // 正在进行中，展示信息
+              value: 'myAmswering',
+              label: '进行中'
+            },
+            {
+              // 我已经完成的任务
+              value: 'myFinishInfo',
+              label: '已完成'
+            }
+          ]
+        }
+
+      ]
     }
   ]
 
   const SelectShowBox = () => {
-    if ((showContent === 'stillSend') || (showContent === 'stillSell')) {
-      return <OrderCardBox/>
-    }else if ((showContent === 'sellOver') || (showContent === 'buyOver') || (showContent === 'myDoing') || (showContent === 'myFinish') || (showContent === 'sendOver')) {
+    if ((showContent === 'stillSend') || (showContent === 'stillSell') || (showContent === 'stillInfo')) {
+      return <OrderCardBox />
+    } else if ((showContent === 'sellOver') || (showContent === 'buyOver') || (showContent === 'myDoing') || (showContent === 'myFinish') || (showContent === 'sendOver') || (showContent === 'infoOver') || (showContent === 'myAnswering') || (showContent === 'myFinishInfo')) {
       return <CommitedCardBox />
-    }else {
-      return <NotCommitCardBox/>
+    } else {
+      return <NotCommitCardBox />
     }
   }
 
@@ -241,9 +366,9 @@ export const PersonalPage = () => {
 
           <div className={styles.orderBox}>
             <div className={styles.selectNav}>
-              <Cascader defaultValue={['flea', 'sell', 'sellOver']} options={navOptions} onChange={selectContentHandler} className={styles.chooseNav}/>
+              <Cascader defaultValue={['flea', 'sell', 'sellOver']} options={navOptions} onChange={selectContentHandler} className={styles.chooseNav} />
             </div>
-            {<SelectShowBox/>}
+            {<SelectShowBox />}
           </div>
         </div>
       </Content>

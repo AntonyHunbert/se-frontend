@@ -44,7 +44,7 @@ const MainPage = () => {
         type: type
       }
     }).then(function (response) {
-      console.log(response);
+      setGoods(response.data.data);
     })
       .catch(function (err) {
         console.log(err);
@@ -150,7 +150,8 @@ const MainPage = () => {
         order: order
       }
     }).then(function (response) {
-      console.log(response);
+      console.log(response.data.data);
+      setGoods(response.data.data);
     })
       .catch(function (err) {
         console.log(err);
@@ -291,11 +292,17 @@ const MainPage = () => {
             </div>
             <div className={styles.mainContent}>
               {/* 放卡片在这里（整个系统的主题色和背景都还没定，这个是我随便找的） */}
-              <OrderCard/>
-              <OrderCard/>
-              <OrderCard/>
-              <OrderCard/>
-              <OrderCard/>
+
+              {
+                goods.map(item => (
+                  <OrderCard name={item.title} description={item.description} price={item.reward} picture={item.picture} client_id={item.client_id} order_id={item.order_id}></OrderCard>
+                ))
+              }
+              {/* <OrderCard />
+              <OrderCard />
+              <OrderCard />
+              <OrderCard />
+              <OrderCard /> */}
 
 
             </div>

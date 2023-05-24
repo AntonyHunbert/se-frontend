@@ -10,6 +10,7 @@ import {
   message,
 } from "antd";
 import { useState } from "react";
+import axios from 'axios'
 
 export const NewOrder = (props) => {
   return (
@@ -28,10 +29,11 @@ export const NewOrder = (props) => {
 
 const OrderForm = () => {
 
-  const [tag, setTag] = useState([]);
+  const [tag, setTag] = useState('');
   const [price, setPrice] = useState(100);
   const [detail, setDetail] = useState('');
-
+  const [name, setName] = useState();
+  const [type, setType] = useState();
 
   const tagOptions = [
     {
@@ -119,15 +121,15 @@ const OrderForm = () => {
     console.log(e);
     var type;
     if (e[0] === 'order') {
-      type = 1;
+      setType(1);
     }
     else if (e[0] === 'flea') {
-      type = 3;
+      setType(3);
     }
     else if (e[0] === 'info') {
-      type = 2;
+      setType(2);
     }
-    setTag([tag[0], type]);
+    setTag(e[1]);
 
   };
 
@@ -156,12 +158,56 @@ const OrderForm = () => {
     showUploadList: true,
   };
 
+  const padZero = (number) => {
+    return number < 10 ? '0' + number : number;
+  }
+
+  const formatDateToYYYYMMDDHHMMSS = (date) => {
+    var year = date.getFullYear();
+    var month = padZero(date.getMonth() + 1);
+    var day = padZero(date.getDate());
+    var hours = padZero(date.getHours());
+    var minutes = padZero(date.getMinutes());
+    var seconds = padZero(date.getSeconds());
+
+    var formattedDate =
+      year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+
+    return formattedDate;
+  }
+
+  const commitOrder = () => {
+    let formData = new FormData();
+    formData.append('client', localStorage.getItem('stuId'));
+    formData.append('date', formatDateToYYYYMMDDHHMMSS(new Date()));
+    formData.append('description', detail);
+    formData.append('reward', price);
+    formData.append('type', type);
+    formData.append('label', tag);
+    formData.append('picture', picture);
+    formData.append('title', name);
+    axios({
+      method: 'post',
+      url: "http://localhost:8011/user/add",
+      data: formData
+    })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (err) {
+        console.log(err);
+      })
+  }
+
+  const changeName = (e) => {
+    setName(e.target.value);
+  }
+
   const changePrice = (e) => {
     setPrice(e);
   }
 
   const changeDetail = (e) => {
-    // console.log(e.target.value);
     setDetail(e.target.value)
   }
   return (
@@ -186,7 +232,7 @@ const OrderForm = () => {
             },
           ]}
         >
-          <Input placeholder="请输入订单的名称" style={{ width: "80%" }} />
+          <Input placeholder="请输入订单的名称" style={{ width: "80%" }} onChange={changeName} />
         </Form.Item>
 
         <Form.Item
@@ -248,7 +294,7 @@ const OrderForm = () => {
         </Form.Item>
 
         <Form.Item className={styles.releaseBtn}>
-          <Button htmlType='submit' style={{ width: "10vw" }}>发布</Button>
+          <Button htmlType='submit' style={{ width: "10vw" }} onClick={commitOrder}>发布</Button>
         </Form.Item>
       </Form>
     </div>

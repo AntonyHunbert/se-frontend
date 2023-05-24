@@ -16,9 +16,9 @@ import { ShowCommentPage } from './Commponents/ShowCommentPage/ShowCommentPage';
 function App() {
   const RouteTable = useRoutes(routes)
   return (
-    // <>
-    //   {RouteTable}
-    // </>
+    <>
+      {RouteTable}
+    </>
     // <LoginPage />
     // <SignupPage/>
     // <MainPage />
@@ -27,7 +27,7 @@ function App() {
     // <PersonalPage />
     // <NewOrder />s
     // <OrderInfo />
-    <ShowCommentPage />
+    // <ShowCommentPage />
   );
 }
 
