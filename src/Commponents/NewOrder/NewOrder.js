@@ -21,19 +21,19 @@ export const NewOrder = (props) => {
             <CloseOutlined />
           </button>
         </div>
-        <OrderForm />
+        <OrderForm showCard={props.showCard} updatePage={props.updatePage} />
       </div>
     </div>
   );
 };
 
-const OrderForm = () => {
+const OrderForm = (props) => {
 
-  const [tag, setTag] = useState('');
+  const [tag, setTag] = useState('book');
   const [price, setPrice] = useState(100);
   const [detail, setDetail] = useState('');
   const [name, setName] = useState();
-  const [type, setType] = useState();
+  const [type, setType] = useState(3);
 
   const tagOptions = [
     {
@@ -119,7 +119,6 @@ const OrderForm = () => {
   const tagOnChange = (e) => {
     //返回的是一个数组，索引值为级联层数  
     console.log(e);
-    var type;
     if (e[0] === 'order') {
       setType(1);
     }
@@ -129,6 +128,7 @@ const OrderForm = () => {
     else if (e[0] === 'info') {
       setType(2);
     }
+    console.log(e[1]);
     setTag(e[1]);
 
   };
@@ -193,10 +193,13 @@ const OrderForm = () => {
     })
       .then(function (res) {
         console.log(res);
+        props.updatePage();
+        props.showCard();
       })
       .catch(function (err) {
         console.log(err);
       })
+
   }
 
   const changeName = (e) => {
@@ -250,7 +253,7 @@ const OrderForm = () => {
               width: "100%",
             }}
             options={tagOptions}
-            defaultValue={[["flea", "3c"]]}
+            defaultValue={[["flea", "book"]]}
             onChange={tagOnChange}
           // 当前可以选择最多3个标签，如果要改成只能选1个，将下面两行注释掉即可
           // multiple
@@ -268,7 +271,7 @@ const OrderForm = () => {
             },
           ]}
         >
-          <InputNumber addonAfter="￥" defaultValue={100} style={{ width: "80%" }} onChange={changePrice} />
+          <InputNumber addonAfter="￥" style={{ width: "80%" }} onChange={changePrice} />
         </Form.Item>
 
         <Form.Item label={<p>描述</p>} name="description">

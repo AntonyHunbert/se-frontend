@@ -35,6 +35,12 @@ export const PersonalPage = () => {
   }, [])
 
   const [showNewOrder, setShowNewOrder] = useState(false);
+  const [detail, setDeatil] = useState([]);
+
+  const [type_update, setType_update] = useState();
+  const [status_update, setStatus_update] = useState();
+  const [position_update, setPosition_update] = useState();
+  const [path_update, setPath_update] = useState();
 
   const showNewOrderHandler = () => {
     setShowNewOrder(prevState => !prevState);
@@ -119,6 +125,9 @@ export const PersonalPage = () => {
       status = '2'
     }
 
+    setType_update(type);
+    setStatus_update(status);
+    setPosition_update(position);
 
     if (position === 'server') {
       path = 'http://localhost:8011/user/select/server'
@@ -126,7 +135,7 @@ export const PersonalPage = () => {
     else if (position === 'client') {
       path = 'http://localhost:8011/user/select/client'
     }
-
+    setPath_update(path);
 
     axios({
       url: path,
@@ -135,12 +144,13 @@ export const PersonalPage = () => {
         'content-type': 'application/x-www-form-urlencoded'
       },
       data: {
-        [position]: 12011941,
+        [position]: localStorage.getItem('stuId'),
         status: status,
         type: type
       }
     }).then(function (response) {
-      console.log(response);
+      console.log(response.data.data);
+      setDeatil(response.data.data)
     })
       .catch(function (err) {
         console.log(err);
@@ -150,14 +160,60 @@ export const PersonalPage = () => {
     setShowContent(e[2]);
   };
 
+  const deleteOrder = (order_id, status) => {
+    axios({
+      url: 'http://localhost:8011/user/delete',
+      method: 'delete',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        orderId: order_id,
+        status: status,
+        client: localStorage.getItem('stuId')
+      }
+    }).then(function (response) {
+      console.log(response);
+      updatePage();
+    })
+      .catch(function (err) {
+        console.log(err);
+      });
+
+  }
+
+  const updatePage = () => {
+    console.log(123);
+    //删除完之后更新page
+    axios({
+      url: path_update,
+      method: 'post',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        [position_update]: localStorage.getItem('stuId'),
+        status: status_update,
+        type: type_update
+      }
+    }).then(function (response) {
+      console.log(response.data.data);
+      setDeatil(response.data.data)
+    })
+      .catch(function (err) {
+        console.log(err);
+      })
+  }
+
   const OrderCardBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <WaitingCard />
-        <WaitingCard />
-        <WaitingCard />
-        <WaitingCard />
-
+        {
+          detail.map(item => (
+            <WaitingCard description={item.description} price={item.reward} picture={item.picture} client_id={item.client_id} order_id={item.order_id} deleteOrder={deleteOrder} status={item.
+              status}></WaitingCard>
+          ))
+        }
       </div>
     );
   };
@@ -165,24 +221,51 @@ export const PersonalPage = () => {
   const CommitedCardBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <CommitedCard />
-        <CommitedCard />
-        <CommitedCard />
-        <CommitedCard />
+        {
+          detail.map(item => (
+            <CommitedCard name={item.title} description={item.description} price={item.reward} picture={item.picture} client_id={item.client_id} order_id={item.order_id}></CommitedCard>
+          ))
+        }
 
       </div>
     );
   }
 
+  const comleteOrder = (type, server_id, client_id, reward, order_id) => {
+    console.log(type, server_id, client_id, reward, order_id);
+    axios({
+      url: 'http://localhost:8011/user/completeorder',
+      method: 'post',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        type: type,
+        server: server_id,
+        client: client_id,
+        reward: reward,
+        orderId: order_id
+      }
+    }).then(function (response) {
+      console.log(response);
+      updatePage();
+    })
+      .catch(function (err) {
+        console.log(err);
+      });
+    updatePage();
+    showCommentPageHandler();
+  }
+
   const NotCommitCardBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <NotCommitCard showCommentPage={showCommentPageHandler} />
-        <NotCommitCard showCommentPage={showCommentPageHandler} />
-        <NotCommitCard showCommentPage={showCommentPageHandler} />
-        <NotCommitCard showCommentPage={showCommentPageHandler} />
-        <NotCommitCard showCommentPage={showCommentPageHandler} />
-
+        {
+          detail.map(item => (
+            <NotCommitCard name={item.title} description={item.description} price={item.reward} picture={item.picture} client_id={item.client_id} server_id={item.server_id}
+              order_id={item.order_id} comleteOrder={comleteOrder} task_type={item.task_type}></NotCommitCard>
+          ))
+        }
       </div>
     );
   }
@@ -325,7 +408,8 @@ export const PersonalPage = () => {
   const SelectShowBox = () => {
     if ((showContent === 'stillSend') || (showContent === 'stillSell') || (showContent === 'stillInfo')) {
       return <OrderCardBox />
-    } else if ((showContent === 'sellOver') || (showContent === 'buyOver') || (showContent === 'myDoing') || (showContent === 'myFinish') || (showContent === 'sendOver') || (showContent === 'infoOver') || (showContent === 'myAnswering') || (showContent === 'myFinishInfo')) {
+    } else if ((showContent === 'sellOver') || (showContent === 'buyOver') || (showContent === 'myDoing') || (showContent === 'myFinish') ||
+      (showContent === 'sendOver') || (showContent === 'infoOver') || (showContent === 'myAnswering') || (showContent === 'myFinishInfo')) {
       return <CommitedCardBox />
     } else {
       return <NotCommitCardBox />
@@ -373,7 +457,7 @@ export const PersonalPage = () => {
         </div>
       </Content>
     </Layout>
-    {showNewOrder && <NewOrder showCard={showNewOrderHandler} />}
+    {showNewOrder && <NewOrder showCard={showNewOrderHandler} updatePage={updatePage} />}
     {showCommentPage && <CommentPage showCard={showCommentPageHandler} />}
   </>
 };

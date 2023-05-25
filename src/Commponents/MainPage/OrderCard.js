@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { OrderInfo } from '../OrderInfo/OrderInfo';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 export const OrderCard = (props) => {
@@ -13,8 +14,11 @@ export const OrderCard = (props) => {
     const [showOrderInfo, setShowOrderInfo] = useState(false);
     const [order_id, setOrder_id] = useState(props.order_id);
     const [client_id, setClient_id] = useState(props.client_id);
-
+    const [reward, setReward] = useState(props.reward);
+    const [type, setType] = useState(props.type)
     const navigate = useNavigate();
+
+
 
     const showOrderInfoHandler = () => {
         setShowOrderInfo(prevState => !prevState);
@@ -24,6 +28,29 @@ export const OrderCard = (props) => {
         navigate('/chat', { state: { client: client_id.toString(), server: localStorage.getItem('stuId') } });
     }
 
+    const takeOrder = () => {
+        axios({
+            url: 'http://localhost:8011/user/takeorder',
+            method: 'post',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+                type: type,
+                server: localStorage.getItem('stuId'),
+                client: client_id,
+                reward: reward,
+                orderId: order_id
+            }
+        }).then(function (response) {
+            alert(response.data.message)
+            props.updatePage();
+        })
+            .catch(function (err) {
+                console.log(err);
+            });
+    }
+
     return <>
         <Card
 
@@ -31,7 +58,7 @@ export const OrderCard = (props) => {
             cover={<img src={props.picture} className={styles.imgSize} />}
             actions={[
                 <div>{client_id}</div>,
-                <div>￥ {props.price}</div>,
+                <div onClick={takeOrder}>￥ {props.price}</div>,
                 <div onClick={showOrderInfoHandler}><EllipsisOutlined />详情</div>,
                 <Button onClick={jumpToChat} type='link' size='small'><MessageOutlined />聊天</Button>
             ]}

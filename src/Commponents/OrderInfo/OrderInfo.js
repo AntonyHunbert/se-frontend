@@ -1,6 +1,7 @@
 import styles from "./OrderInfo.module.css";
 import { CloseOutlined } from "@ant-design/icons";
 import { Breadcrumb, Tag, Row, Col, Rate, Button, Carousel } from "antd";
+import { NavLink } from "react-router-dom";
 
 export const OrderInfo = (props) => {
   const releasedOrderNum = 4;
@@ -19,7 +20,7 @@ export const OrderInfo = (props) => {
             <Carousel autoplay className={styles.picsBox}>
               <img src="./键盘1.jpg" className={styles.picsStyle} />
               <img src="./鼠标1.png" className={styles.picsStyle} />
-              <img src="./原神1.png" className={styles.picsStyle} />
+              {/* <img src="./原神1.png" className={styles.picsStyle} /> */}
             </Carousel>
             <div className={styles.orderTitle}>
               原神周边  ￥99
@@ -53,7 +54,7 @@ export const OrderInfo = (props) => {
                     </Col>
                   </Row>
                 </div>
-                <Button>卖家主页</Button>
+                <NavLink to='/comment'>查看评价</NavLink>
               </div>
             </div>
             <div className={styles.btnBox}>

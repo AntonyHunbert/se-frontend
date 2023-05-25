@@ -29,7 +29,7 @@ const MainPage = () => {
 
   // const [demoArr, setDemoArr] = useState([]);
 
-  //根据type搜，就是跳蚤市场，外卖和作业 1是跑腿，2是作业，3是跳蚤市场
+  //根据type搜，就是跳蚤市场，跑腿和作业 1是任务，2是信息交流，3是跳蚤市场
   //返回自己发的订单，根据订单状态搜索
   //返回自己接了什么单
 
@@ -158,9 +158,6 @@ const MainPage = () => {
       })
   }
 
-  const { Search } = Input;
-
-  const onSearch = (value) => console.log(value);
 
   const handleSort = (value) => {
     setOrder(value);
@@ -184,10 +181,27 @@ const MainPage = () => {
       })
   }
 
-  const orderStatusChange = (value) => {
-    console.log("checked", value.target.value);
-    setOrderStatus(value.target.value);
-  };
+  const updatePage = () => {
+    axios({
+      url: 'http://localhost:8011/user/select/bylabel',
+      method: 'post',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        type: type,
+        label: label,
+        status: 1,
+        order: order
+      }
+    }).then(function (response) {
+      console.log(response.data.data);
+      setGoods(response.data.data);
+    })
+      .catch(function (err) {
+        console.log(err);
+      })
+  }
 
   return (
     <>
@@ -295,16 +309,10 @@ const MainPage = () => {
 
               {
                 goods.map(item => (
-                  <OrderCard name={item.title} description={item.description} price={item.reward} picture={item.picture} client_id={item.client_id} order_id={item.order_id}></OrderCard>
+                  <OrderCard name={item.title} description={item.description} price={item.reward} picture={item.picture} client_id={item.client_id}
+                    order_id={item.order_id} type={item.task_type} reward={item.reward} updatePage={updatePage}></OrderCard>
                 ))
               }
-              {/* <OrderCard />
-              <OrderCard />
-              <OrderCard />
-              <OrderCard />
-              <OrderCard /> */}
-
-
             </div>
 
           </Content>

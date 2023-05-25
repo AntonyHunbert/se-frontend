@@ -1,20 +1,22 @@
+import { useState } from 'react';
 import styles from './CardStyle.module.css'
 import { Card } from 'antd'
 
-export default function CommitedCard() {
+export default function CommitedCard(props) {
     const { Meta } = Card;
+    const [order_id, setOrder_id] = useState(props.order_id)
     return (
         <Card
 
             className={styles.card}
-            cover={<img src='./键盘1.jpg' className={styles.imgSize} />}
+            cover={<img src={props.picture} className={styles.imgSize} />}
             actions={[
-                <div>￥ 199</div>,
-                <div>机械键盘</div>
+                <div>￥ {props.price}</div>,
+                <div>{props.title}</div>
             ]}
         >
             <Meta
-                description="高斯机械键盘，上个月购入，几乎没怎么用"
+                description={props.description}
             />
         </Card>
     )

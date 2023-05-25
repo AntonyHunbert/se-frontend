@@ -53,12 +53,11 @@ export const ShowCommentPage = () => {
   const CommentedBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <ShowCommentCard/>
-        <ShowCommentCard/>
-        <ShowCommentCard/>
-        <ShowCommentCard/>
-        <ShowCommentCard/>
-        
+        <ShowCommentCard />
+        <ShowCommentCard />
+        <ShowCommentCard />
+        <ShowCommentCard />
+        <ShowCommentCard />
 
       </div>
     );
