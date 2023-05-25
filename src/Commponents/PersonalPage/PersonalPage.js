@@ -112,7 +112,7 @@ export const PersonalPage = () => {
     else if (e[2] === 'infoOver') {
       status = '3'
     }
-    else if (e[2] === 'myAmswering') {
+    else if (e[2] === 'myAnswering') {
       status = '2'
     }
     else if (e[2] === 'myFinishInfo') {
@@ -390,7 +390,7 @@ export const PersonalPage = () => {
           children: [
             {
               // 正在进行中，展示信息
-              value: 'myAmswering',
+              value: 'myAnswering',
               label: '进行中'
             },
             {

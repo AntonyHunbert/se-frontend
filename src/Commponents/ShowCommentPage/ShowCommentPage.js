@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { NewOrder } from "../NewOrder/NewOrder";
 import { CommentPage } from "../Comment/CommentPage";
 import { ShowCommentCard } from "./ShowCommentCard";
+import { useLocation } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -13,13 +14,17 @@ export const ShowCommentPage = () => {
   const [showNewOrder, setShowNewOrder] = useState(false);
   const [commentDetail, setCommentDetail] = useState();
 
+  const location = useLocation();
+  const state = location.state;
+
   //测试获取评价的数组
   useEffect(() => {
+    console.log(state);
     axios({
       method: 'get',
       url: "http://localhost:8051/eval/get",
       params: {
-        server: 1
+        server: state.client_id
       }
     })
       .then(function (res) {

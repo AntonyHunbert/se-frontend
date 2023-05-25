@@ -68,7 +68,7 @@ export const OrderCard = (props) => {
                 description={props.description}
             />
         </Card>
-        {showOrderInfo && <OrderInfo showInfo={showOrderInfoHandler} />}
+        {showOrderInfo && <OrderInfo showInfo={showOrderInfoHandler} order_id={order_id} client_id={client_id} />}
     </>
 
 };
