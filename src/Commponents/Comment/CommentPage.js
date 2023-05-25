@@ -63,7 +63,7 @@ export const CommentPage = (props) => {
     <div className={styles.maskbox}>
       <div className={styles.commentCard}>
         <div className={styles.closeBox}>
-          <p >上传评价</p>
+          <div className={styles.titleBox}>上传评价</div>
           <button className={styles.cardCloseBtn} onClick={props.showCard}>
             <CloseOutlined />
           </button>

@@ -38,7 +38,7 @@
     /* margin: 0 1.5vw; */
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     /* float: left; */
     /* border-bottom: 1px #afafaf solid; */
     /* background-color: #bfa; */
@@ -96,4 +96,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.titleBox {
+    width: 50vw;
+    /* background-color: #bfa; */
+    text-align: center;
+    /* font-size: large; */
+    font-weight: bold;
 }
