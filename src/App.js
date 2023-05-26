@@ -12,23 +12,25 @@ import { PersonalPage } from './Commponents/PersonalPage/PersonalPage';
 import { NewOrder } from './Commponents/NewOrder/NewOrder';
 import { OrderInfo } from './Commponents/OrderInfo/OrderInfo';
 import { ShowCommentPage } from './Commponents/ShowCommentPage/ShowCommentPage';
+import QRCodeCard from './Commponents/PersonalPage/QRCodeCard';
 
 function App() {
   const RouteTable = useRoutes(routes)
   return (
-    <>
-      {RouteTable}
-    </>
+    // <>
+    //   {RouteTable}
+    // </>
     // <LoginPage />
     // <SignupPage/>
     // <MainPage />
     // <ChatPage/>
     // <CommentPage />
-    // <PersonalPage />
+    <PersonalPage />
     // <NewOrder />s
     // <OrderInfo />
     // <ShowCommentPage />
     // <OrderCard/>
+    // <QRCodeCard/>
   );
 }
 

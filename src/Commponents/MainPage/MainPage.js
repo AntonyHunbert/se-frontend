@@ -20,6 +20,7 @@ import {
   FieldTimeOutlined,
 } from "@ant-design/icons";
 import { OrderCard } from "./OrderCard";
+import HeaderNav from "./HeaderNav/HeaderNav";
 const { Header, Content, Footer, Sider } = Layout;
 const MainPage = () => {
 
@@ -223,28 +224,7 @@ const MainPage = () => {
       {/* <button onClick={demoChange}></button> */}
 
       <Layout>
-        <Header
-          className={styles.mainHeader}
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 1,
-            width: "100%",
-          }}
-          theme="light"
-        >
-          <div>logo</div>
-          {/* <Menu mode="horizontal"
-                    items={mainNavItems}
-                /> */}
-
-          {/* <div className={styles.loginBox}> 修改密码</div> */}
-          <div className={styles.loginBox}>
-            {" "}
-            <UserOutlined /> 请登录
-          </div>
-        </Header>
-
+        <HeaderNav/>
         <Layout hasSider>
           <Sider
             className={styles.mainSider}
