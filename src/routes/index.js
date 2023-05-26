@@ -5,6 +5,7 @@ import SignupPage from '../Commponents/Login/SignupPage/SignupPage'
 import FindPwdPage from '../Commponents/Login/FindPwdPage/FindPwdPage'
 import ChatPage from '../Commponents/Chat/ChatPage'
 import { ShowCommentPage } from '../Commponents/ShowCommentPage/ShowCommentPage'
+import { PersonalPage } from '../Commponents/PersonalPage/PersonalPage'
 export default [
     {
         path: '/',
@@ -33,5 +34,9 @@ export default [
     {
         path: '/comment',
         element: <ShowCommentPage></ShowCommentPage>,
+    },
+    {
+        path: '/personal',
+        element: <PersonalPage></PersonalPage>,
     }
 ]

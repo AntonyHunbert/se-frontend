@@ -10,7 +10,7 @@ import CommitedCard from "./CommitedCard";
 import NotCommitCard from "./NotCommitCard";
 import WaitingCard from "./WaitingCard";
 import HeaderNav from "../MainPage/HeaderNav/HeaderNav";
-import QRCodeCard from "./QRCodeCard";
+import ChargeMoneyCard from "./ChargeMoneyCard";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -23,7 +23,7 @@ export const PersonalPage = () => {
         "content-type": "application/x-www-form-urlencoded",
       },
       data: {
-        client: 12011941,
+        client: localStorage.getItem('stuId'),
         status: 3,
         type: 3,
       },
@@ -59,10 +59,10 @@ export const PersonalPage = () => {
   const [showContent, setShowContent] = useState("sellOver");
 
   // 是否展示二维码
-  const [showQRCode, setShowQRCode] = useState(false);
+  const [showMoneyCard, setshowMoneyCard] = useState(false);
 
-  const showQRCodeHandler = () => {
-    setShowQRCode((prevState) => !prevState);
+  const showMoneyCardHandler = () => {
+    setshowMoneyCard((prevState) => !prevState);
   };
 
   const selectContentHandler = (e) => {
@@ -259,6 +259,11 @@ export const PersonalPage = () => {
     updatePage();
     showCommentPageHandler();
   };
+
+  const chargeMoney = () => {
+    console.log(123);
+  }
+
 
   const NotCommitCardBox = () => {
     return (
@@ -460,12 +465,15 @@ export const PersonalPage = () => {
                   <Col span={6}>我的余额</Col>
                   <Col span={18}>￥ 1999</Col>
                 </Row>
-                <Row>
-                  <Col span={24}>
-                    发布订单{releasedOrderNum}个，接受订单{acceptedOrderNum}个。
-                  </Col>
-                </Row>
+
               </div>
+              <Button
+                className={styles.releaseBtn}
+                onClick={chargeMoney}
+              >
+                <PayCircleOutlined />
+                编辑资料
+              </Button>
               <div className={styles.btnBox}>
                 <Button
                   className={styles.releaseBtn}
@@ -475,7 +483,7 @@ export const PersonalPage = () => {
                 </Button>
                 <Button
                   className={styles.releaseBtn}
-                  onClick={showQRCodeHandler}
+                  onClick={showMoneyCardHandler}
                 >
                   <PayCircleOutlined />
                   充值
@@ -502,7 +510,7 @@ export const PersonalPage = () => {
       )}
       {showCommentPage && <CommentPage showCard={showCommentPageHandler} />}
 
-      {showQRCode && <QRCodeCard showQRCode={showQRCodeHandler} />}
+      {showMoneyCard && <ChargeMoneyCard showMoneyCard={showMoneyCardHandler} />}
     </>
   );
 };

@@ -33,7 +33,6 @@ export const OrderInfo = (props) => {
       .catch(function (err) {
         console.log(err);
       });
-
   }, [])
 
   useEffect(() => {
@@ -41,16 +40,6 @@ export const OrderInfo = (props) => {
       setScore(detail.mark)
     }
   }, [detail])
-
-  // useEffect(() => {
-  //   console.log(score);
-  // }, [score])
-
-  // const scoreRef = useRef(score);
-  // useEffect(() => {
-  //   scoreRef.current = score;
-  // }, [score]);
-
 
 
   return (

@@ -1,18 +1,44 @@
 import styles from "./HeaderNav.module.css";
 import { UserOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Layout } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HeaderNav(params) {
   const { Header } = Layout;
+  const [login, setLogin] = useState(localStorage.getItem('stuId') === null)
+  const [name, setName] = useState('请登录')
+  const navigate = useNavigate();
+
+  const onClick = ({ key }) => {
+    if (key === '1') {
+      navigate('/mainpage')
+    }
+
+    if (key === '2') {
+      navigate('/personal')
+    }
+    if (key === '3') {
+      // navigate('/chat')
+    }
+  }
+  useEffect(() => {
+    if (localStorage.getItem('stuId') !== null) {
+      setName('你好!' + localStorage.getItem('stuId'))
+    }
+  }, [])
   const items = [
     {
-        key: 1,
-        label: (<div>我的钱包</div>),
+      key: 1,
+      label: (<div>回到主页</div>),
     },
     {
-        key: 2,
-        label: (<div>2222</div>),
+      key: 2,
+      label: (<div>个人主页</div>),
+    },
+    {
+      key: 3,
+      label: (<div>我的消息</div>),
     }
   ];
   return (
@@ -35,14 +61,16 @@ export default function HeaderNav(params) {
       <Dropdown
         menu={{
           items,
-        }}  
+          onClick,
+        }}
+        disabled={login}
         trigger={['click']}
-        className={styles.dropdownBox} 
+        className={styles.dropdownBox}
       >
         <Button type='link' className={styles.selectBtn}>
-          <UserOutlined /> 请登录
+          <UserOutlined /> {name}
         </Button>
-      </Dropdown>
+      </Dropdown >
       {/* <div className={styles.loginBox}>
         {" "}
         <UserOutlined /> 请登录
