@@ -1,6 +1,6 @@
 import { Col, Layout, Row, Rate, Button, Radio, Card, Cascader } from "antd";
 import styles from "./PersonalPage.module.css";
-import { PlusOutlined, PayCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined, PayCircleOutlined, EditOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { OrderCard } from "../MainPage/OrderCard";
 import { NewOrder } from "../NewOrder/NewOrder";
@@ -11,6 +11,7 @@ import NotCommitCard from "./NotCommitCard";
 import WaitingCard from "./WaitingCard";
 import HeaderNav from "../MainPage/HeaderNav/HeaderNav";
 import ChargeMoneyCard from "./ChargeMoneyCard";
+import EditInfoCard from "./EditInfoCard";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -23,7 +24,7 @@ export const PersonalPage = () => {
         "content-type": "application/x-www-form-urlencoded",
       },
       data: {
-        client: localStorage.getItem('stuId'),
+        client: localStorage.getItem("stuId"),
         status: 3,
         type: 3,
       },
@@ -64,6 +65,11 @@ export const PersonalPage = () => {
   const showMoneyCardHandler = () => {
     setshowMoneyCard((prevState) => !prevState);
   };
+
+  const [showEditCard, setShowEditCard] = useState(false);
+  const showEditCardHandler = () => {
+    setShowEditCard(prevState => !prevState);
+  }
 
   const selectContentHandler = (e) => {
     console.log(e);
@@ -262,8 +268,7 @@ export const PersonalPage = () => {
 
   const chargeMoney = () => {
     console.log(123);
-  }
-
+  };
 
   const NotCommitCardBox = () => {
     return (
@@ -449,11 +454,17 @@ export const PersonalPage = () => {
         <Content className={styles.contentStyle}>
           <div className={styles.contentBox}>
             <div className={styles.infoBox}>
-              <img src="头像1.png" className={styles.userAvatar} />
+              <img src="默认头像.jpg" className={styles.userAvatar} />
               <div className={styles.basicInfo}>
                 <Row>
                   <Col span={6}>用户名</Col>
-                  <Col span={18}>吃葡萄不吐葡萄皮</Col>
+                  <Col span={12}>吃葡萄不吐葡萄皮</Col>
+                  <Col span={6}>
+                    <Button className={styles.editBtn} type='link' size="small" onClick={showEditCardHandler}>
+                      <EditOutlined  />
+                      编辑
+                    </Button>
+                  </Col>
                 </Row>
                 <Row>
                   <Col span={6}>评分</Col>
@@ -465,15 +476,7 @@ export const PersonalPage = () => {
                   <Col span={6}>我的余额</Col>
                   <Col span={18}>￥ 1999</Col>
                 </Row>
-
               </div>
-              <Button
-                className={styles.releaseBtn}
-                onClick={chargeMoney}
-              >
-                <PayCircleOutlined />
-                编辑资料
-              </Button>
               <div className={styles.btnBox}>
                 <Button
                   className={styles.releaseBtn}
@@ -510,7 +513,13 @@ export const PersonalPage = () => {
       )}
       {showCommentPage && <CommentPage showCard={showCommentPageHandler} />}
 
-      {showMoneyCard && <ChargeMoneyCard showMoneyCard={showMoneyCardHandler} />}
+      {showMoneyCard && (
+        <ChargeMoneyCard showMoneyCard={showMoneyCardHandler} />
+      )}
+
+      {showEditCard && (<EditInfoCard showEditCard={showEditCardHandler}/>)}
+
+      
     </>
   );
 };

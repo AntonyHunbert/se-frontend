@@ -16,15 +16,15 @@ import ChargeMoneyCard from './Commponents/PersonalPage/ChargeMoneyCard';
 function App() {
   const RouteTable = useRoutes(routes)
   return (
-    <>
-      {RouteTable}
-    </>
+    // <>
+    //   {RouteTable}
+    // </>
     // <LoginPage />
     // <SignupPage />
     // <MainPage />
     // <ChatPage />
     // <CommentPage />
-    // <PersonalPage />
+    <PersonalPage />
     // <NewOrder />s
     // <OrderInfo />
     // <ShowCommentPage />
