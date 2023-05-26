@@ -16,6 +16,16 @@ import EditInfoCard from "./EditInfoCard";
 const { Header, Content, Footer, Sider } = Layout;
 
 export const PersonalPage = () => {
+
+  const [personalMsg, setPersonalMsg] = useState({});
+  const [pic, setPic] = useState('./默认头像.jpg')
+  const [score, setScore] = useState(5);
+  const [edit, setEdit] = useState(false);
+
+  const changeEdit = () => {
+    setEdit((prevState) => !prevState);
+  };
+
   useEffect(() => {
     axios({
       url: "http://localhost:8011/user/select/client",
@@ -30,12 +40,52 @@ export const PersonalPage = () => {
       },
     })
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
+        setDeatil(response.data.data);
       })
       .catch(function (err) {
         console.log(err);
       });
+    updateUser();
   }, []);
+
+
+  //更新用户信息
+  const updateUser = () => {
+    axios({
+      url: "http://localhost:8081/user/all",
+      method: "get",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+      },
+      params: {
+        stuId: localStorage.getItem("stuId"),
+      },
+    })
+      .then(function (response) {
+        console.log(response.data.data);
+        setPersonalMsg(response.data.data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    updateUser();
+  }, [edit])
+
+  useEffect(() => {
+    if (personalMsg.photo) {
+      setPic(personalMsg.photo)
+    }
+    if (personalMsg.totalScore === null || personalMsg.count === null) {
+      setScore(5);
+    }
+    else {
+      setScore(personalMsg.totalScore / personalMsg.count);
+    }
+  }, [personalMsg])
 
   const [showNewOrder, setShowNewOrder] = useState(false);
   const [detail, setDeatil] = useState([]);
@@ -53,9 +103,6 @@ export const PersonalPage = () => {
   const showCommentPageHandler = () => {
     setShowCommentPage((prevState) => !prevState);
   };
-
-  const releasedOrderNum = 4;
-  const acceptedOrderNum = 11;
 
   const [showContent, setShowContent] = useState("sellOver");
 
@@ -266,9 +313,6 @@ export const PersonalPage = () => {
     showCommentPageHandler();
   };
 
-  const chargeMoney = () => {
-    console.log(123);
-  };
 
   const NotCommitCardBox = () => {
     return (
@@ -454,14 +498,14 @@ export const PersonalPage = () => {
         <Content className={styles.contentStyle}>
           <div className={styles.contentBox}>
             <div className={styles.infoBox}>
-              <img src="默认头像.jpg" className={styles.userAvatar} />
+              <img src={pic} className={styles.userAvatar} />
               <div className={styles.basicInfo}>
                 <Row>
                   <Col span={6}>用户名</Col>
-                  <Col span={12}>吃葡萄不吐葡萄皮</Col>
+                  <Col span={12}>{personalMsg.name}</Col>
                   <Col span={6}>
                     <Button className={styles.editBtn} type='link' size="small" onClick={showEditCardHandler}>
-                      <EditOutlined  />
+                      <EditOutlined />
                       编辑
                     </Button>
                   </Col>
@@ -469,12 +513,12 @@ export const PersonalPage = () => {
                 <Row>
                   <Col span={6}>评分</Col>
                   <Col span={18}>
-                    <Rate disabled defaultValue={2} />
+                    <Rate disabled value={score} />
                   </Col>
                 </Row>
                 <Row>
                   <Col span={6}>我的余额</Col>
-                  <Col span={18}>￥ 1999</Col>
+                  <Col span={18}>￥ {personalMsg.money}</Col>
                 </Row>
               </div>
               <div className={styles.btnBox}>
@@ -517,9 +561,9 @@ export const PersonalPage = () => {
         <ChargeMoneyCard showMoneyCard={showMoneyCardHandler} />
       )}
 
-      {showEditCard && (<EditInfoCard showEditCard={showEditCardHandler}/>)}
+      {showEditCard && (<EditInfoCard showEditCard={showEditCardHandler} name={personalMsg.name} changeEdit={changeEdit} />)}
 
-      
+
     </>
   );
 };
