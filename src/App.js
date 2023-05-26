@@ -16,14 +16,14 @@ import { ShowCommentPage } from './Commponents/ShowCommentPage/ShowCommentPage';
 function App() {
   const RouteTable = useRoutes(routes)
   return (
-    // <>
-    //   {RouteTable}
-    // </>
+    <>
+      {RouteTable}
+    </>
     // <LoginPage />
     // <SignupPage/>
     // <MainPage />
     // <ChatPage/>
-    <CommentPage />
+    // <CommentPage />
     // <PersonalPage />
     // <NewOrder />s
     // <OrderInfo />

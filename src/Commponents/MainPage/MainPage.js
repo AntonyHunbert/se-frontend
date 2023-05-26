@@ -116,21 +116,35 @@ const MainPage = () => {
 
   const onOpenChange = (keys) => {
 
+    console.log(keys);
+
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (rootSiderKeys.indexOf(latestOpenKey) === -1) {
       setOpenKeys(keys);
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
-    console.log(keys);
-    if (keys[0] === 'order') {
-      setType(1)
+    if (keys.length === 1) {
+      if (keys[0] === 'order') {
+        setType(1)
+      }
+      else if (keys[0] === 'flea') {
+        setType(3)
+      }
+      else if (keys[0] === 'info') {
+        setType(2)
+      }
     }
-    else if (keys[0] === 'flea') {
-      setType(3)
-    }
-    else if (keys[0] === 'info') {
-      setType(2)
+    if (keys.length === 2) {
+      if (keys[1] === 'order') {
+        setType(1)
+      }
+      else if (keys[1] === 'flea') {
+        setType(3)
+      }
+      else if (keys[1] === 'info') {
+        setType(2)
+      }
     }
   };
 
@@ -150,7 +164,7 @@ const MainPage = () => {
         order: order
       }
     }).then(function (response) {
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setGoods(response.data.data);
     })
       .catch(function (err) {
@@ -174,7 +188,7 @@ const MainPage = () => {
         order: value
       }
     }).then(function (response) {
-      console.log(response);
+      // console.log(response);
     })
       .catch(function (err) {
         console.log(err);
