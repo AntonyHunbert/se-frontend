@@ -6,20 +6,24 @@ import { NewOrder } from "../NewOrder/NewOrder";
 import { CommentPage } from "../Comment/CommentPage";
 import { ShowCommentCard } from "./ShowCommentCard";
 import { useLocation } from "react-router-dom";
+import HeaderNav from "../MainPage/HeaderNav/HeaderNav";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content } = Layout;
 
 
 export const ShowCommentPage = () => {
   const [showNewOrder, setShowNewOrder] = useState(false);
-  const [commentDetail, setCommentDetail] = useState();
+  const [commentDetail, setCommentDetail] = useState([]);
+
+  const [userDetail, setUserDetail] = useState({});
+  const [photo, setPhoto] = useState('./默认头像.jpg')
+  const [score, setScore] = useState(5);
 
   const location = useLocation();
   const state = location.state;
 
   //测试获取评价的数组
   useEffect(() => {
-    console.log(state);
     axios({
       method: 'get',
       url: "http://localhost:8051/eval/get",
@@ -28,13 +32,45 @@ export const ShowCommentPage = () => {
       }
     })
       .then(function (res) {
-        setCommentDetail(res.data.data)
-        console.log(res.data.data);
+        if (res.data.data !== null) {
+          setCommentDetail(res.data.data)
+        }
+        console.log(res);
       })
       .catch(function (err) {
         console.log(err);
+      });
+
+    axios({
+      url: "http://localhost:8081/user/all",
+      method: "get",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+      },
+      params: {
+        stuId: state.client_id,
+      },
+    })
+      .then(function (response) {
+        // console.log(response.data.data);
+        setUserDetail(response.data.data)
       })
+      .catch(function (err) {
+        console.log(err);
+      });
   }, [])
+
+  useEffect(() => {
+    if (userDetail.photo) {
+      setPhoto(userDetail.photo)
+    }
+    if (userDetail.totalScore === null || userDetail.count === null) {
+      setScore(5);
+    }
+    else {
+      setScore(userDetail.totalScore / userDetail.count)
+    }
+  }, [userDetail])
 
   const showNewOrderHandler = () => {
     setShowNewOrder((prevState) => !prevState);
@@ -44,9 +80,6 @@ export const ShowCommentPage = () => {
   const showCommentPageHandler = () => {
     setShowCommentPage((prevState) => !prevState);
   };
-
-  const releasedOrderNum = 4;
-  const acceptedOrderNum = 11;
 
   const [showContent, setShowContent] = useState(1);
 
@@ -58,12 +91,12 @@ export const ShowCommentPage = () => {
   const CommentedBox = () => {
     return (
       <div className={styles.contentBox1}>
-        <ShowCommentCard />
-        <ShowCommentCard />
-        <ShowCommentCard />
-        <ShowCommentCard />
-        <ShowCommentCard />
-
+        {
+          commentDetail.map(item => (
+            <ShowCommentCard text={item.text} price={item.reward} point={item.point}
+              pic={item.pic} client={item.client} orderId={item.orderId} key={item.orderId}></ShowCommentCard>
+          ))
+        }
       </div>
     );
   };
@@ -73,30 +106,24 @@ export const ShowCommentPage = () => {
   return (
     <>
       <Layout>
-        <Header className={styles.personalHeader}>
-          <div>logo</div>
-        </Header>
+        <HeaderNav></HeaderNav>
 
         <Content className={styles.contentStyle}>
           <div className={styles.contentBox}>
             <div className={styles.infoBox}>
-              <img src="头像1.png" className={styles.userAvatar} />
+              <img src={photo} className={styles.userAvatar} />
               <div className={styles.basicInfo}>
                 <Row>
                   <Col span={6}>用户名</Col>
-                  <Col span={18}>吃葡萄不吐葡萄皮</Col>
+                  <Col span={18}>{userDetail.name}</Col>
                 </Row>
                 <Row>
                   <Col span={6}>评分</Col>
                   <Col span={18}>
-                    <Rate disabled defaultValue={2} />
+                    <Rate disabled value={score} />
                   </Col>
                 </Row>
-                <Row>
-                  <Col span={24}>
-                    发布订单{releasedOrderNum}个，接受订单{acceptedOrderNum}个。
-                  </Col>
-                </Row>
+
               </div>
             </div>
 

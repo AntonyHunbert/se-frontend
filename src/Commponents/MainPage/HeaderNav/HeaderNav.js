@@ -21,6 +21,9 @@ export default function HeaderNav(params) {
     if (key === '3') {
       // navigate('/chat')
     }
+    if (key === '4') {
+      navigate('/comment', { state: { client_id: localStorage.getItem('stuId') } })
+    }
   }
   useEffect(() => {
     if (localStorage.getItem('stuId') !== null) {
@@ -39,6 +42,10 @@ export default function HeaderNav(params) {
     {
       key: 3,
       label: (<div>我的消息</div>),
+    },
+    {
+      key: 4,
+      label: (<div>我的评价</div>),
     }
   ];
   return (
