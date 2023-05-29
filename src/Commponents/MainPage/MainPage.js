@@ -247,7 +247,7 @@ const MainPage = () => {
               onClick={clickItem}
             />
           </Sider>
-          <Content>
+          <Content className={styles.content}>
 
             <div className={styles.sortingBox}>
               {/* <Search

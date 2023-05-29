@@ -17,9 +17,9 @@ import EditInfoCard from './Commponents/PersonalPage/EditInfoCard';
 function App() {
   const RouteTable = useRoutes(routes)
   return (
-    <>
-      {RouteTable}
-    </>
+    // <>
+    //   {RouteTable}
+    // </>
     // <LoginPage />
     // <SignupPage />
     // <MainPage />
@@ -28,7 +28,7 @@ function App() {
     // <PersonalPage />
     // <NewOrder />s
     // <OrderInfo />
-    // <ShowCommentPage />
+    <ShowCommentPage />
     // <EditInfoCard></EditInfoCard>
     // <ChargeMoneyCard />
   );

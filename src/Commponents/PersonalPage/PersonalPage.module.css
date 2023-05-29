@@ -49,7 +49,8 @@
 
 
 .contentStyle {
-    background-color: rgb(255, 255, 255, 0);
+    /* background-color: rgb(255, 255, 255, 0); */
+    background-image:linear-gradient(25deg,#a8edea 0%, #fed6e3 100%);
 }
 
 .orderBox {
